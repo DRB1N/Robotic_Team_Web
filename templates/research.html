@@ -4,9 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>竞赛科研 — 太原理工大学机器人团队</title>
-<link rel="stylesheet" href="/static/css/style.css">
+<link rel="stylesheet" href="/static/css/style.css?v=5">
 <style>
-/* Resource cards */
 .resource-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -14,88 +13,76 @@
 }
 
 .resource-card {
-  background: var(--bg-card);
+  background: linear-gradient(135deg, rgba(15, 15, 36, 0.9) 0%, rgba(10, 10, 26, 0.95) 100%);
   border: 1px solid var(--border-color);
-  border-radius: 12px;
+  border-radius: 14px;
   padding: 2rem;
-  transition: all 0.4s;
   text-align: center;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
 }
-
-.resource-card:hover {
-  border-color: var(--cyan);
-  box-shadow: 0 15px 40px rgba(0, 240, 255, 0.08);
-  transform: translateY(-3px);
+.resource-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--cyan), var(--magenta), transparent);
+  opacity: 0;
+  transition: opacity 0.4s;
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
 }
+.resource-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 40%, rgba(0, 240, 255, 0.03) 50%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s;
+  pointer-events: none;
+}
+.resource-card:hover { border-color: var(--cyan); }
+.resource-card:hover::before { opacity: 1; }
+.resource-card:hover::after { opacity: 1; }
 
 .resource-icon {
-  font-size: 3rem;
+  font-size: 3.5rem;
   display: block;
-  margin-bottom: 1rem;
+  margin-bottom: 1.2rem;
+  filter: drop-shadow(0 0 10px rgba(0, 240, 255, 0.4));
+  animation: iconFloat 3s ease-in-out infinite;
+}
+@keyframes iconFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
 }
 
 .resource-card h3 {
   color: var(--cyan);
   margin-bottom: 0.75rem;
+  text-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+  font-size: 1.2rem;
 }
-
 .resource-card p {
   color: var(--text-secondary);
-  line-height: 1.6;
+  line-height: 1.7;
   font-size: 0.95rem;
 }
 
 .resource-spec {
   display: inline-block;
-  margin-top: 1rem;
-  padding: 0.3rem 0.8rem;
+  margin-top: 1.2rem;
+  padding: 0.35rem 1rem;
   font-family: 'Orbitron', sans-serif;
-  font-size: 0.7rem;
-  color: var(--magenta);
-  border: 1px solid var(--magenta);
-  border-radius: 15px;
-}
-
-/* Competition showcase */
-.comp-table {
-  width: 100%;
-  max-width: 800px;
-  margin: 0 auto;
-  border-collapse: collapse;
-}
-
-.comp-table th {
-  background: var(--bg-tertiary);
-  padding: 1rem 1.5rem;
-  text-align: left;
-  font-family: 'Orbitron', sans-serif;
-  font-size: 0.75rem;
-  letter-spacing: 0.08em;
-  color: var(--cyan);
-  border-bottom: 2px solid var(--border-color);
-}
-
-.comp-table td {
-  padding: 1rem 1.5rem;
-  border-bottom: 1px solid rgba(255,255,255,0.04);
-  color: var(--text-secondary);
-  vertical-align: top;
-}
-
-.comp-table tr:hover td {
-  background: var(--cyan-dim);
-}
-
-.comp-table .award {
-  display: inline-block;
-  padding: 0.2rem 0.6rem;
-  border-radius: 4px;
   font-size: 0.75rem;
   font-weight: 600;
+  color: var(--magenta);
+  border: 1px solid var(--magenta);
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(255, 0, 170, 0.12) 0%, rgba(255, 0, 170, 0.04) 100%);
+  box-shadow: 0 0 15px rgba(255, 0, 170, 0.2);
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 8px rgba(255, 0, 170, 0.4);
 }
-
-.award-gold { background: rgba(255,215,0,0.15); color: #ffd700; border: 1px solid rgba(255,215,0,0.3); }
-.award-silver { background: rgba(192,192,192,0.15); color: #c0c0c0; border: 1px solid rgba(192,192,192,0.3); }
 
 /* Platform cards */
 .platform-grid {
@@ -106,37 +93,56 @@
 }
 
 .platform-card {
-  background: var(--bg-card);
+  background: linear-gradient(135deg, rgba(15, 15, 36, 0.9) 0%, rgba(10, 10, 26, 0.95) 100%);
   border: 1px solid var(--border-color);
-  border-radius: 10px;
+  border-radius: 12px;
   padding: 1.8rem;
-  transition: all 0.3s;
   display: flex;
   align-items: flex-start;
   gap: 1rem;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
 }
-
-.platform-card:hover {
-  border-color: var(--green);
-  box-shadow: 0 0 20px rgba(0, 255, 136, 0.1);
+.platform-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--green), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+  box-shadow: 0 0 15px var(--green);
 }
+.platform-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 40%, rgba(0, 255, 136, 0.02) 50%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+.platform-card:hover { border-color: var(--green); }
+.platform-card:hover::before { opacity: 1; }
+.platform-card:hover::after { opacity: 1; }
 
 .platform-icon {
-  font-size: 2rem;
+  font-size: 2.2rem;
   flex-shrink: 0;
+  filter: drop-shadow(0 0 8px rgba(0, 255, 136, 0.4));
 }
-
 .platform-card h4 {
   color: var(--green);
   font-family: 'Orbitron', sans-serif;
-  font-size: 0.9rem;
-  margin-bottom: 0.25rem;
+  font-size: 0.95rem;
+  margin-bottom: 0.3rem;
+  text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+  letter-spacing: 0.05em;
 }
-
 .platform-card p {
   color: var(--text-secondary);
-  font-size: 0.85rem;
-  line-height: 1.5;
+  font-size: 0.9rem;
+  line-height: 1.6;
 }
 
 /* Academic output */
@@ -149,64 +155,78 @@
 
 .output-card {
   text-align: center;
-  padding: 2rem;
-  background: var(--bg-card);
+  padding: 2.2rem 1.5rem;
+  background: linear-gradient(135deg, rgba(15, 15, 36, 0.9) 0%, rgba(10, 10, 26, 0.95) 100%);
   border: 1px solid var(--border-color);
-  border-radius: 10px;
-  transition: all 0.3s;
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
 }
-
-.output-card:hover {
-  border-color: var(--yellow);
-  box-shadow: var(--glow-yellow);
+.output-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--yellow), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+  box-shadow: 0 0 15px var(--yellow);
 }
+.output-card:hover { border-color: var(--yellow); }
+.output-card:hover::before { opacity: 1; }
 
 .output-num {
   font-family: 'Orbitron', sans-serif;
-  font-size: 3rem;
+  font-size: 3.5rem;
   font-weight: 700;
   color: var(--yellow);
-  text-shadow: 0 0 15px rgba(255, 230, 0, 0.3);
+  text-shadow:
+    0 0 20px rgba(255, 230, 0, 0.5),
+    0 0 40px rgba(255, 230, 0, 0.2);
+  animation: numPulse 2s ease-in-out infinite;
+}
+
+@keyframes numPulse {
+  0%, 100% { text-shadow: 0 0 20px rgba(255, 230, 0, 0.5), 0 0 40px rgba(255, 230, 0, 0.2); }
+  50% { text-shadow: 0 0 30px rgba(255, 230, 0, 0.7), 0 0 60px rgba(255, 230, 0, 0.3); }
 }
 
 .output-label {
   color: var(--text-secondary);
   margin-top: 0.5rem;
-  font-size: 0.95rem;
+  font-size: 1rem;
+  letter-spacing: 0.05em;
 }
 
-/* Quotes */
+/* Comp table centering */
+.comp-table { width: 100%; max-width: 850px; margin: 0 auto; border-collapse: collapse; }
+.comp-table .award { display: inline-block; padding: 0.25rem 0.7rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; }
+.award-gold { background: rgba(255,215,0,0.12); color: #ffd700; border: 1px solid rgba(255,215,0,0.35); }
+.award-silver { background: rgba(192,192,192,0.12); color: #c0c0c0; border: 1px solid rgba(192,192,192,0.35); }
+
+/* Quote box */
 .quote-box {
-  max-width: 700px;
+  max-width: 750px;
   margin: 3rem auto;
-  padding: 2rem 3rem;
-  border-left: 4px solid var(--cyan);
-  background: var(--bg-card);
-  border-radius: 0 8px 8px 0;
-}
-
-.quote-box p {
-  font-size: 1.1rem;
-  color: var(--text-primary);
-  line-height: 1.8;
-  font-style: italic;
-}
-
-.quote-box .attr {
-  color: var(--cyan);
-  font-family: 'Orbitron', sans-serif;
-  margin-top: 1rem;
-  font-style: normal;
 }
 </style>
 </head>
 <body>
 <div class="noise-overlay"></div>
 
+<!-- Like Widget -->
+<div class="like-widget" id="like-widget">
+  <button class="like-btn" id="like-btn" onclick="handleLike()" title="点赞">
+    ♥
+  </button>
+  <div class="like-count" id="like-count">0</div>
+  <div class="like-remaining" id="like-remaining"></div>
+</div>
+
 <nav class="nav">
   <div class="nav-inner">
     <a href="/" class="nav-logo">
-      <img src="/images/照片/logo.jpg" alt="Logo" onerror="this.style.display='none'">
+      <img src="/images/照片/transparent_logo.png" alt="Logo" onerror="this.style.display='none'">
       <span>TYUT ROBOT</span>
     </a>
     <button class="menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
@@ -215,12 +235,35 @@
       <li><a href="/organization">组织概况</a></li>
       <li><a href="/training">培养方案</a></li>
       <li><a href="/research" class="active">竞赛科研</a></li>
+      <li><a href="/guestbook">留言板</a></li>
+      {% if user %}
+      <li><span class="nav-user-tag">{{ user.username }}</span></li>
+      <li><a href="#" class="nav-logout-btn" onclick="logout(); return false">退出</a></li>
+      {% else %}
+      <li><button class="nav-user-btn" onclick="showAuthModal('login')">登录</button></li>
+      {% endif %}
       <li><button class="theme-toggle" onclick="toggleTheme()" title="切换主题">🌓</button></li>
     </ul>
   </div>
 </nav>
 
 <div class="page-content">
+
+  <!-- Radar Satellite decoration -->
+  <div class="robot-radar">
+    <div class="robot-radar-panel left"></div>
+    <div class="robot-radar-panel right"></div>
+    <div class="robot-radar-dish">
+      <div class="robot-radar-ring r1"></div>
+      <div class="robot-radar-ring r2"></div>
+      <div class="robot-radar-ring r3"></div>
+      <div class="robot-radar-center"></div>
+      <div class="robot-radar-blip b1"></div>
+      <div class="robot-radar-blip b2"></div>
+      <div class="robot-radar-blip b3"></div>
+    </div>
+    <div class="robot-radar-body"></div>
+  </div>
 
 <section class="section">
   <div class="section-header animate-in">
@@ -417,6 +460,52 @@
   <p>© 2026 <span class="brand">TYUT Robot Team</span> — 太原理工大学机器人团队</p>
 </footer>
 
-<script src="/static/js/main.js"></script>
+<script src="/static/js/main.js?v=3"></script>
+
+<div id="auth-modal" class="modal-overlay" style="display:none">
+  <div class="modal-card">
+    <div class="modal-hud-corners"></div>
+    <div class="modal-hud-bottom"></div>
+    <button class="modal-close" onclick="hideAuthModal()">×</button>
+    <div class="modal-tabs">
+      <button class="modal-tab active" data-tab="login" onclick="switchAuthTab('login')">⚡ 登录</button>
+      <button class="modal-tab" data-tab="register" onclick="switchAuthTab('register')">🔐 注册</button>
+    </div>
+    <form id="login-form" class="auth-form" onsubmit="handleLogin(event)">
+      <div class="auth-input-group">
+        <span class="auth-input-icon">👤</span>
+        <input type="text" name="username" placeholder="用户名" required>
+      </div>
+      <div class="auth-input-group">
+        <span class="auth-input-icon">🔑</span>
+        <input type="password" name="password" placeholder="密码" required>
+        <button type="button" class="pw-toggle" onclick="togglePassword(this)" title="显示密码">👁</button>
+      </div>
+      <button type="submit" class="btn btn-primary">⚡ 登 录</button>
+    </form>
+    <form id="register-form" class="auth-form" style="display:none" onsubmit="handleRegister(event)">
+      <div class="auth-input-group">
+        <span class="auth-input-icon">👤</span>
+        <input type="text" name="username" placeholder="用户名（2-20个字符）" required>
+      </div>
+      <div class="auth-input-group">
+        <span class="auth-input-icon">📧</span>
+        <input type="text" name="email" placeholder="邮箱 / 手机号" required>
+      </div>
+      <div class="auth-input-group">
+        <span class="auth-input-icon">🔑</span>
+        <input type="password" name="password" placeholder="密码（至少6位）" required>
+        <button type="button" class="pw-toggle" onclick="togglePassword(this)" title="显示密码">👁</button>
+      </div>
+      <div class="auth-input-group">
+        <span class="auth-input-icon">✓</span>
+        <input type="password" name="confirm" placeholder="确认密码" required>
+      </div>
+      <button type="submit" class="btn btn-primary">🔐 注 册</button>
+    </form>
+    <div id="auth-error" class="auth-error" style="display:none"></div>
+  </div>
+</div>
+
 </body>
 </html>

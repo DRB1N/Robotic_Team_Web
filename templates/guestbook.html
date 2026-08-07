@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>留言板 — 太原理工大学机器人团队</title>
+<link rel="stylesheet" href="/static/css/style.css?v=5">
+<style>
+/* Guestbook page-specific enhancements */
+.gb-container { max-width: 750px; margin: 0 auto; }
+
+.gb-form {
+  margin-bottom: 2.5rem;
+  background: linear-gradient(135deg, rgba(15, 15, 36, 0.7) 0%, rgba(10, 10, 26, 0.8) 100%);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  transition: all 0.4s;
+}
+.gb-form::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--cyan), var(--magenta), transparent);
+  opacity: 0;
+  transition: opacity 0.4s;
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+}
+.gb-form:focus-within {
+  border-color: var(--cyan);
+  box-shadow: 0 0 25px rgba(0, 240, 255, 0.12), inset 0 0 25px rgba(0, 240, 255, 0.02);
+}
+.gb-form:focus-within::before { opacity: 1; }
+
+.gb-form textarea {
+  width: 100%;
+  padding: 1.2rem;
+  background: rgba(8, 8, 20, 0.6);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  color: var(--text-primary);
+  font-family: 'Rajdhani', 'Noto Sans SC', sans-serif;
+  font-size: 1.05rem;
+  resize: vertical;
+  min-height: 110px;
+  outline: none;
+  transition: all 0.35s;
+  backdrop-filter: blur(4px);
+  box-sizing: border-box;
+}
+.gb-form textarea:focus {
+  border-color: var(--cyan);
+  box-shadow:
+    0 0 25px rgba(0, 240, 255, 0.25),
+    0 0 50px rgba(0, 240, 255, 0.08),
+    inset 0 0 20px rgba(0, 240, 255, 0.04);
+  background: rgba(10, 10, 28, 0.85);
+}
+.gb-form textarea::placeholder { color: var(--text-muted); font-size: 0.95rem; }
+
+.gb-form-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.85rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.gb-hint {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+.gb-hint strong {
+  color: var(--cyan);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.8rem;
+  text-shadow: 0 0 8px rgba(0, 240, 255, 0.3);
+}
+
+.gb-login-hint {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: linear-gradient(135deg, rgba(15, 15, 36, 0.5) 0%, rgba(10, 10, 26, 0.6) 100%);
+  border: 2px dashed var(--border-color);
+  border-radius: 14px;
+  transition: all 0.4s;
+  margin-bottom: 2.5rem;
+}
+.gb-login-hint:hover {
+  border-color: var(--cyan);
+  border-style: solid;
+  box-shadow: 0 0 30px rgba(0, 240, 255, 0.12);
+}
+.gb-login-hint p { color: var(--text-muted); font-size: 1rem; }
+.gb-login-hint a {
+  color: var(--cyan);
+  cursor: pointer;
+  text-decoration: underline;
+  font-weight: 600;
+  transition: text-shadow 0.3s;
+}
+.gb-login-hint a:hover { text-shadow: 0 0 15px rgba(0, 240, 255, 0.7); }
+
+/* Section subtitle markdown hint */
+.md-hint {
+  display: inline-block;
+  padding: 0.35rem 1rem;
+  background: rgba(0, 240, 255, 0.06);
+  border: 1px solid rgba(0, 240, 255, 0.2);
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-family: 'Rajdhani', monospace;
+  letter-spacing: 0.03em;
+}
+.md-hint:hover { border-color: var(--cyan); color: var(--text-secondary); }
+</style>
+</head>
+<body>
+<div class="noise-overlay"></div>
+
+<!-- Like Widget -->
+<div class="like-widget" id="like-widget">
+  <button class="like-btn" id="like-btn" onclick="handleLike()" title="点赞">
+    ♥
+  </button>
+  <div class="like-count" id="like-count">0</div>
+  <div class="like-remaining" id="like-remaining"></div>
+</div>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <img src="/images/照片/transparent_logo.png" alt="Logo" onerror="this.style.display='none'">
+      <span>TYUT ROBOT</span>
+    </a>
+    <button class="menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+    <ul class="nav-links">
+      <li><a href="/">网站主页</a></li>
+      <li><a href="/organization">组织概况</a></li>
+      <li><a href="/training">培养方案</a></li>
+      <li><a href="/research">竞赛科研</a></li>
+      <li><a href="/guestbook" class="active">留言板</a></li>
+      {% if user %}
+      <li><span class="nav-user-tag">{{ user.username }}</span></li>
+      <li><a href="#" class="nav-logout-btn" onclick="logout(); return false">退出</a></li>
+      {% else %}
+      <li><button class="nav-user-btn" onclick="showAuthModal('login')">登录</button></li>
+      {% endif %}
+      <li><button class="theme-toggle" onclick="toggleTheme()" title="切换主题">🌓</button></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-content">
+
+  <!-- Chat Bot decoration -->
+  <div class="robot-chat">
+    <div class="robot-chat-antenna"></div>
+    <div class="robot-chat-bubble">
+      <div class="robot-chat-face">
+        <div class="robot-chat-eye left"></div>
+        <div class="robot-chat-eye right"></div>
+        <div class="robot-chat-mouth"></div>
+      </div>
+    </div>
+  </div>
+
+<section class="section">
+  <div class="section-header animate-in">
+    <h2>📝 留言板</h2>
+    <p class="subtitle">GUESTBOOK</p>
+    <div class="section-divider"></div>
+    <p style="margin-top:1rem"><span class="md-hint">**粗体** *斜体* `代码` [链接](url) #标题 — 支持 Markdown</span></p>
+  </div>
+
+  <div class="gb-container">
+
+    {% if user %}
+    <div class="gb-form animate-in">
+      <textarea id="guestbook-input" placeholder="写下你想说的话... (支持 Markdown)" rows="4"></textarea>
+      <div class="gb-form-footer">
+        <span class="gb-hint">以 <strong>{{ user.username }}</strong> 的身份留言</span>
+        <button class="btn btn-primary" onclick="submitGuest(event)">发表留言</button>
+      </div>
+    </div>
+    {% else %}
+    <div class="gb-login-hint animate-in">
+      <p><a onclick="showAuthModal('login')">登录</a> 后即可发表留言</p>
+    </div>
+    {% endif %}
+
+    <div id="guestbook-list" class="animate-in"></div>
+
+  </div>
+</section>
+
+</div>
+
+<footer class="footer">
+  <p>© 2026 <span class="brand">TYUT Robot Team</span> — 太原理工大学机器人团队</p>
+</footer>
+
+<div id="auth-modal" class="modal-overlay" style="display:none">
+  <div class="modal-card">
+    <div class="modal-hud-corners"></div>
+    <div class="modal-hud-bottom"></div>
+    <button class="modal-close" onclick="hideAuthModal()">×</button>
+    <div class="modal-tabs">
+      <button class="modal-tab active" data-tab="login" onclick="switchAuthTab('login')">⚡ 登录</button>
+      <button class="modal-tab" data-tab="register" onclick="switchAuthTab('register')">🔐 注册</button>
+    </div>
+    <form id="login-form" class="auth-form" onsubmit="handleLogin(event)">
+      <div class="auth-input-group">
+        <span class="auth-input-icon">👤</span>
+        <input type="text" name="username" placeholder="用户名" required>
+      </div>
+      <div class="auth-input-group">
+        <span class="auth-input-icon">🔑</span>
+        <input type="password" name="password" placeholder="密码" required>
+        <button type="button" class="pw-toggle" onclick="togglePassword(this)" title="显示密码">👁</button>
+      </div>
+      <button type="submit" class="btn btn-primary">⚡ 登 录</button>
+    </form>
+    <form id="register-form" class="auth-form" style="display:none" onsubmit="handleRegister(event)">
+      <div class="auth-input-group">
+        <span class="auth-input-icon">👤</span>
+        <input type="text" name="username" placeholder="用户名（2-20个字符）" required>
+      </div>
+      <div class="auth-input-group">
+        <span class="auth-input-icon">📧</span>
+        <input type="text" name="email" placeholder="邮箱 / 手机号" required>
+      </div>
+      <div class="auth-input-group">
+        <span class="auth-input-icon">🔑</span>
+        <input type="password" name="password" placeholder="密码（至少6位）" required>
+        <button type="button" class="pw-toggle" onclick="togglePassword(this)" title="显示密码">👁</button>
+      </div>
+      <div class="auth-input-group">
+        <span class="auth-input-icon">✓</span>
+        <input type="password" name="confirm" placeholder="确认密码" required>
+      </div>
+      <button type="submit" class="btn btn-primary">🔐 注 册</button>
+    </form>
+    <div id="auth-error" class="auth-error" style="display:none"></div>
+  </div>
+</div>
+
+<script src="/static/js/main.js?v=3"></script>
+</body>
+</html>

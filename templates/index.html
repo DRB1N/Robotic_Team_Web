@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>太原理工大学机器人团队 · 2026纳新</title>
-<link rel="stylesheet" href="/static/css/style.css">
+<link rel="stylesheet" href="/static/css/style.css?v=5">
 <style>
 /* ── Hero Section ─────────────────────────────────── */
 .hero {
@@ -35,25 +35,39 @@
 }
 
 .qr-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  padding: 0.6rem;
+  background: linear-gradient(135deg, rgba(15, 15, 36, 0.95) 0%, rgba(10, 10, 26, 0.98) 100%);
+  border: 1px solid var(--cyan);
+  border-radius: 10px;
+  padding: 0.7rem;
   text-align: center;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(12px);
   transition: all 0.3s;
-  width: 100px;
+  width: 110px;
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.15), inset 0 0 15px rgba(0, 240, 255, 0.03);
+  position: relative;
+  overflow: hidden;
+}
+
+.qr-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+  box-shadow: 0 0 10px var(--cyan);
 }
 
 .qr-card:hover {
   border-color: var(--cyan);
-  box-shadow: var(--glow-cyan);
-  transform: scale(1.05);
+  box-shadow: var(--glow-cyan), 0 0 30px rgba(0, 240, 255, 0.2);
+  transform: scale(1.08);
 }
 
 .qr-card img {
-  width: 80px;
-  height: 80px;
+  width: 90px;
+  height: 90px;
   object-fit: contain;
   border-radius: 4px;
 }
@@ -297,6 +311,19 @@
 
 <div class="noise-overlay"></div>
 
+<!-- Robot Decorative Element -->
+<div class="robot-deco">🤖</div>
+<div class="circuit-bg"></div>
+
+<!-- Like Widget -->
+<div class="like-widget" id="like-widget">
+  <button class="like-btn" id="like-btn" onclick="handleLike()" title="点赞">
+    ♥
+  </button>
+  <div class="like-count" id="like-count">0</div>
+  <div class="like-remaining" id="like-remaining"></div>
+</div>
+
 <!-- QR Code Float Bar -->
 <div class="qr-bar">
   <div class="qr-card">
@@ -315,7 +342,7 @@
 <nav class="nav">
   <div class="nav-inner">
     <a href="/" class="nav-logo">
-      <img src="/images/照片/logo.jpg" alt="Logo" onerror="this.style.display='none'">
+      <img src="/images/照片/transparent_logo.png" alt="Logo" onerror="this.style.display='none'">
       <span>TYUT ROBOT</span>
     </a>
     <button class="menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
@@ -324,6 +351,13 @@
       <li><a href="/organization">组织概况</a></li>
       <li><a href="/training">培养方案</a></li>
       <li><a href="/research">竞赛科研</a></li>
+      <li><a href="/guestbook">留言板</a></li>
+      {% if user %}
+      <li><span class="nav-user-tag">{{ user.username }}</span></li>
+      <li><a href="#" class="nav-logout-btn" onclick="logout(); return false">退出</a></li>
+      {% else %}
+      <li><button class="nav-user-btn" onclick="showAuthModal('login')">登录</button></li>
+      {% endif %}
       <li><button class="theme-toggle" onclick="toggleTheme()" title="切换主题">🌓</button></li>
     </ul>
   </div>
@@ -334,19 +368,51 @@
 
 <!-- Hero Section -->
 <section class="hero">
+  <!-- Holographic Geo-Bot (right side decoration) -->
+  <div class="robot-geo">
+    <div class="robot-geo-head"></div>
+    <div class="robot-geo-arm left"></div>
+    <div class="robot-geo-arm right"></div>
+    <div class="robot-geo-body"></div>
+    <div class="robot-geo-legs">
+      <span class="robot-geo-leg"></span>
+      <span class="robot-geo-leg"></span>
+    </div>
+  </div>
+
   <div class="hero-content">
-    <div class="hero-badge">🚀 2026 纳新正式启动</div>
+    <div class="loader-robot animate-in">
+      <div class="loader-robot-head"></div>
+      <div class="loader-robot-arm left"></div>
+      <div class="loader-robot-arm right"></div>
+      <div class="loader-robot-body"></div>
+      <div class="loader-legs"><span class="loader-robot-leg"></span><span class="loader-robot-leg"></span></div>
+    </div>
+    <div class="hero-badge" style="
+      display: inline-block;
+      padding: 0.5rem 1.5rem;
+      border: 1px solid var(--magenta);
+      border-radius: 25px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.8rem;
+      color: var(--magenta);
+      letter-spacing: 0.2em;
+      margin-bottom: 2rem;
+      animation: pulse 2s infinite, neonPulse 3s ease-in-out infinite;
+      box-shadow: 0 0 20px rgba(255, 0, 170, 0.3), inset 0 0 15px rgba(255, 0, 170, 0.05);
+      text-shadow: 0 0 10px rgba(255, 0, 170, 0.5);
+    ">🚀 2026 纳新正式启动</div>
     <h1>
-      <span class="line1">太原理工大学</span>
-      <span class="line2" data-text="机器人团队">机器人团队</span>
+      <span class="line1" style="display: block; color: var(--text-primary); text-shadow: 0 0 20px rgba(0, 240, 255, 0.3);">太原理工大学</span>
+      <span class="line2 glitch" data-text="机器人团队" style="display: block; color: var(--cyan); animation: neonPulse 3s infinite, holoShimmer 4s ease-in-out infinite; background: linear-gradient(90deg, var(--cyan) 0%, #fff 25%, var(--cyan) 50%, #fff 75%, var(--cyan) 100%); background-size: 200% 100%; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">机器人团队</span>
     </h1>
     <p class="hero-desc">
       你好，新同学。<br>
       如果你曾对机器人、人工智能，或者"让机器动起来"这件事产生过哪怕一瞬间的好奇——那么，这里或许就是你想要停留的地方。
     </p>
     <div class="hero-buttons">
-      <a href="/training" class="btn btn-primary">🔧 了解培养方案</a>
-      <a href="/organization" class="btn btn-outline">👥 认识我们</a>
+      <a href="/training" class="btn btn-primary neon-btn">🔧 了解培养方案</a>
+      <a href="/organization" class="btn btn-outline neon-btn-magenta">👥 认识我们</a>
     </div>
   </div>
 </section>
@@ -359,19 +425,19 @@
   </div>
   <div class="path-cards">
     <div class="path-card animate-in" style="animation-delay: 0.1s">
-      <span class="path-icon">🤖</span>
-      <h3>硬件开发 · 匠坊队</h3>
-      <p>从电路设计到机械结构，亲手搭建机器人的"骨骼与神经"。PCB设计、3D建模、嵌入式开发，让你的创造从图纸走向现实。</p>
+      <span class="path-icon" style="font-size: 3.5rem; display: block; margin-bottom: 1.5rem; filter: drop-shadow(0 0 15px rgba(0, 240, 255, 0.5));">🤖</span>
+      <h3 style="color: var(--cyan); margin-bottom: 0.75rem; font-size: 1.4rem; text-shadow: 0 0 20px rgba(0, 240, 255, 0.4); letter-spacing: 0.05em;">硬件开发 · 匠坊队</h3>
+      <p style="color: var(--text-secondary); font-size: 1rem; line-height: 1.7;">从电路设计到机械结构，亲手搭建机器人的"骨骼与神经"。PCB设计、3D建模、嵌入式开发，让你的创造从图纸走向现实。</p>
     </div>
     <div class="path-card animate-in" style="animation-delay: 0.3s">
-      <span class="path-icon">💻</span>
-      <h3>软件开发 · 奥创队</h3>
-      <p>从算法到具身智能，赋予机器人"思考与行动"的能力。深度学习、计算机视觉、机器人操作系统，成为AI时代的造物者。</p>
+      <span class="path-icon" style="font-size: 3.5rem; display: block; margin-bottom: 1.5rem; filter: drop-shadow(0 0 15px rgba(255, 0, 170, 0.5));">💻</span>
+      <h3 style="color: var(--magenta); margin-bottom: 0.75rem; font-size: 1.4rem; text-shadow: 0 0 20px rgba(255, 0, 170, 0.4); letter-spacing: 0.05em;">软件开发 · 奥创队</h3>
+      <p style="color: var(--text-secondary); font-size: 1rem; line-height: 1.7;">从算法到具身智能，赋予机器人"思考与行动"的能力。深度学习、计算机视觉、机器人操作系统，成为AI时代的造物者。</p>
     </div>
     <div class="path-card animate-in" style="animation-delay: 0.5s">
-      <span class="path-icon">📢</span>
-      <h3>新媒体宣传 · 团委</h3>
-      <p>用镜头和文字记录技术之美，让更多人看见机器人的力量。公众号运营、视频剪辑、活动策划，做技术与世界的连接者。</p>
+      <span class="path-icon" style="font-size: 3.5rem; display: block; margin-bottom: 1.5rem; filter: drop-shadow(0 0 15px rgba(255, 230, 0, 0.5));">📢</span>
+      <h3 style="color: var(--yellow); margin-bottom: 0.75rem; font-size: 1.4rem; text-shadow: 0 0 20px rgba(255, 230, 0, 0.4); letter-spacing: 0.05em;">新媒体宣传 · 团委</h3>
+      <p style="color: var(--text-secondary); font-size: 1rem; line-height: 1.7;">用镜头和文字记录技术之美，让更多人看见机器人的力量。公众号运营、视频剪辑、活动策划，做技术与世界的连接者。</p>
     </div>
   </div>
 </section>
@@ -482,11 +548,57 @@
 <script type="importmap">
 {
   "imports": {
-    "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
   }
 }
 </script>
 <script type="module" src="/static/js/three-bg.js"></script>
-<script src="/static/js/main.js"></script>
+<script src="/static/js/main.js?v=3"></script>
+
+<div id="auth-modal" class="modal-overlay" style="display:none">
+  <div class="modal-card">
+    <div class="modal-hud-corners"></div>
+    <div class="modal-hud-bottom"></div>
+    <button class="modal-close" onclick="hideAuthModal()">×</button>
+    <div class="modal-tabs">
+      <button class="modal-tab active" data-tab="login" onclick="switchAuthTab('login')">⚡ 登录</button>
+      <button class="modal-tab" data-tab="register" onclick="switchAuthTab('register')">🔐 注册</button>
+    </div>
+    <form id="login-form" class="auth-form" onsubmit="handleLogin(event)">
+      <div class="auth-input-group">
+        <span class="auth-input-icon">👤</span>
+        <input type="text" name="username" placeholder="用户名" required>
+      </div>
+      <div class="auth-input-group">
+        <span class="auth-input-icon">🔑</span>
+        <input type="password" name="password" placeholder="密码" required>
+        <button type="button" class="pw-toggle" onclick="togglePassword(this)" title="显示密码">👁</button>
+      </div>
+      <button type="submit" class="btn btn-primary">⚡ 登 录</button>
+    </form>
+    <form id="register-form" class="auth-form" style="display:none" onsubmit="handleRegister(event)">
+      <div class="auth-input-group">
+        <span class="auth-input-icon">👤</span>
+        <input type="text" name="username" placeholder="用户名（2-20个字符）" required>
+      </div>
+      <div class="auth-input-group">
+        <span class="auth-input-icon">📧</span>
+        <input type="text" name="email" placeholder="邮箱 / 手机号" required>
+      </div>
+      <div class="auth-input-group">
+        <span class="auth-input-icon">🔑</span>
+        <input type="password" name="password" placeholder="密码（至少6位）" required>
+        <button type="button" class="pw-toggle" onclick="togglePassword(this)" title="显示密码">👁</button>
+      </div>
+      <div class="auth-input-group">
+        <span class="auth-input-icon">✓</span>
+        <input type="password" name="confirm" placeholder="确认密码" required>
+      </div>
+      <button type="submit" class="btn btn-primary">🔐 注 册</button>
+    </form>
+    <div id="auth-error" class="auth-error" style="display:none"></div>
+  </div>
+</div>
+
 </body>
 </html>
