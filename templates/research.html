@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>竞赛科研 — 太原理工大学机器人团队</title>
+<link rel="stylesheet" href="/static/css/style.css">
+<style>
+/* Resource cards */
+.resource-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.resource-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 2rem;
+  transition: all 0.4s;
+  text-align: center;
+}
+
+.resource-card:hover {
+  border-color: var(--cyan);
+  box-shadow: 0 15px 40px rgba(0, 240, 255, 0.08);
+  transform: translateY(-3px);
+}
+
+.resource-icon {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.resource-card h3 {
+  color: var(--cyan);
+  margin-bottom: 0.75rem;
+}
+
+.resource-card p {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.resource-spec {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.3rem 0.8rem;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.7rem;
+  color: var(--magenta);
+  border: 1px solid var(--magenta);
+  border-radius: 15px;
+}
+
+/* Competition showcase */
+.comp-table {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  border-collapse: collapse;
+}
+
+.comp-table th {
+  background: var(--bg-tertiary);
+  padding: 1rem 1.5rem;
+  text-align: left;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--cyan);
+  border-bottom: 2px solid var(--border-color);
+}
+
+.comp-table td {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  color: var(--text-secondary);
+  vertical-align: top;
+}
+
+.comp-table tr:hover td {
+  background: var(--cyan-dim);
+}
+
+.comp-table .award {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.award-gold { background: rgba(255,215,0,0.15); color: #ffd700; border: 1px solid rgba(255,215,0,0.3); }
+.award-silver { background: rgba(192,192,192,0.15); color: #c0c0c0; border: 1px solid rgba(192,192,192,0.3); }
+
+/* Platform cards */
+.platform-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.platform-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 1.8rem;
+  transition: all 0.3s;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.platform-card:hover {
+  border-color: var(--green);
+  box-shadow: 0 0 20px rgba(0, 255, 136, 0.1);
+}
+
+.platform-icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.platform-card h4 {
+  color: var(--green);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+}
+
+.platform-card p {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+/* Academic output */
+.output-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.output-card {
+  text-align: center;
+  padding: 2rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  transition: all 0.3s;
+}
+
+.output-card:hover {
+  border-color: var(--yellow);
+  box-shadow: var(--glow-yellow);
+}
+
+.output-num {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--yellow);
+  text-shadow: 0 0 15px rgba(255, 230, 0, 0.3);
+}
+
+.output-label {
+  color: var(--text-secondary);
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+}
+
+/* Quotes */
+.quote-box {
+  max-width: 700px;
+  margin: 3rem auto;
+  padding: 2rem 3rem;
+  border-left: 4px solid var(--cyan);
+  background: var(--bg-card);
+  border-radius: 0 8px 8px 0;
+}
+
+.quote-box p {
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  line-height: 1.8;
+  font-style: italic;
+}
+
+.quote-box .attr {
+  color: var(--cyan);
+  font-family: 'Orbitron', sans-serif;
+  margin-top: 1rem;
+  font-style: normal;
+}
+</style>
+</head>
+<body>
+<div class="noise-overlay"></div>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <img src="/images/照片/logo.jpg" alt="Logo" onerror="this.style.display='none'">
+      <span>TYUT ROBOT</span>
+    </a>
+    <button class="menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+    <ul class="nav-links">
+      <li><a href="/">网站主页</a></li>
+      <li><a href="/organization">组织概况</a></li>
+      <li><a href="/training">培养方案</a></li>
+      <li><a href="/research" class="active">竞赛科研</a></li>
+      <li><button class="theme-toggle" onclick="toggleTheme()" title="切换主题">🌓</button></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-content">
+
+<section class="section">
+  <div class="section-header animate-in">
+    <h2>🏆 竞赛科研</h2>
+    <p class="subtitle">COMPETITION & RESEARCH</p>
+    <div class="section-divider"></div>
+  </div>
+</section>
+
+<!-- Computing Resources -->
+<section class="section" style="padding-top:0">
+  <div class="section-header animate-in">
+    <h2>⚡ 算力资源</h2>
+    <div class="section-divider"></div>
+    <p style="color:var(--text-secondary); max-width:600px; margin:0 auto">
+      团队拥有充足的算力支持，为深度学习和具身智能研究提供强大动力
+    </p>
+  </div>
+  <div class="resource-grid">
+    <div class="resource-card animate-in" style="animation-delay:0.1s">
+      <span class="resource-icon">🖥</span>
+      <h3>高性能GPU服务器</h3>
+      <p>多卡 NVIDIA RTX 4090 / A100 集群，满足大规模模型训练与推理需求</p>
+      <span class="resource-spec">24GB+ VRAM per GPU</span>
+    </div>
+    <div class="resource-card animate-in" style="animation-delay:0.2s">
+      <span class="resource-icon">☁️</span>
+      <h3>云计算平台</h3>
+      <p>依托实验室云平台资源，随时随地远程调用算力，支持多人协同开发</p>
+      <span class="resource-spec">7×24 可用</span>
+    </div>
+    <div class="resource-card animate-in" style="animation-delay:0.3s">
+      <span class="resource-icon">💾</span>
+      <h3>数据存储系统</h3>
+      <p>TB级别NAS存储，海量数据集的可靠存储与高速读取，保障科研效率</p>
+      <span class="resource-spec">RAID 冗余保护</span>
+    </div>
+  </div>
+</section>
+
+<!-- Platform Support -->
+<section class="section">
+  <div class="section-header animate-in">
+    <h2>🛠 平台支持</h2>
+    <div class="section-divider"></div>
+  </div>
+  <div class="platform-grid">
+    <div class="platform-card animate-in" style="animation-delay:0.1s">
+      <span class="platform-icon">🧠</span>
+      <div>
+        <h4>深度学习框架</h4>
+        <p>PyTorch / TensorFlow / JAX 完整工具链，模型训练、评估、部署一条龙</p>
+      </div>
+    </div>
+    <div class="platform-card animate-in" style="animation-delay:0.2s">
+      <span class="platform-icon">🤖</span>
+      <div>
+        <h4>机器人操作系统 ROS</h4>
+        <p>完整的ROS开发环境，Gazebo仿真，实体机器人调试平台</p>
+      </div>
+    </div>
+    <div class="platform-card animate-in" style="animation-delay:0.3s">
+      <span class="platform-icon">🔧</span>
+      <div>
+        <h4>硬件开发套件</h4>
+        <p>STM32 / ESP32 / Arduino / Jetson Nano 等嵌入式开发平台全覆盖</p>
+      </div>
+    </div>
+    <div class="platform-card animate-in" style="animation-delay:0.4s">
+      <span class="platform-icon">📐</span>
+      <div>
+        <h4>CAD建模与仿真</h4>
+        <p>SolidWorks / Fusion 360 / Blender / Unity 3D，从设计到仿真一站式</p>
+      </div>
+    </div>
+    <div class="platform-card animate-in" style="animation-delay:0.5s">
+      <span class="platform-icon">📊</span>
+      <div>
+        <h4>实验管理平台</h4>
+        <p>Weights & Biases / MLflow 实验追踪，保障科研可复现性</p>
+      </div>
+    </div>
+    <div class="platform-card animate-in" style="animation-delay:0.6s">
+      <span class="platform-icon">📚</span>
+      <div>
+        <h4>学术资源库</h4>
+        <p>IEEE / ACM / Springer 等顶级期刊会议论文数据库访问权限</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Competition Achievements -->
+<section class="section">
+  <div class="section-header animate-in">
+    <h2>🎖 竞赛成果</h2>
+    <div class="section-divider"></div>
+  </div>
+  <table class="comp-table animate-in">
+    <thead>
+      <tr><th>竞赛名称</th><th>成果</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>"九天"梧桐杯智能体赛道</td>
+        <td><span class="award award-gold">金奖</span></td>
+      </tr>
+      <tr>
+        <td>中国机器人及人工智能大赛</td>
+        <td>多项国家级奖项</td>
+      </tr>
+      <tr>
+        <td>全国三维数字化创新设计大赛</td>
+        <td>国家级奖项 · 省赛承办方</td>
+      </tr>
+      <tr>
+        <td>先进机器人及仿真技术大赛</td>
+        <td>多项国家级奖项</td>
+      </tr>
+      <tr>
+        <td>"挑战杯"中国大学生创业计划竞赛</td>
+        <td><span class="award award-silver">国家级铜奖</span></td>
+      </tr>
+      <tr>
+        <td>全国大学生跨校创新实践训练营</td>
+        <td>优秀团队</td>
+      </tr>
+      <tr>
+        <td>山西省"互联网+"创新创业大赛</td>
+        <td>金奖</td>
+      </tr>
+      <tr>
+        <td>全国校园人工智能算法精英大赛</td>
+        <td>多项国家级奖项</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- Academic Output -->
+<section class="section">
+  <div class="section-header animate-in">
+    <h2>📝 科研成果</h2>
+    <div class="section-divider"></div>
+  </div>
+  <div class="output-grid">
+    <div class="output-card animate-in" style="animation-delay:0.1s">
+      <div class="output-num">30+</div>
+      <div class="output-label">SCI期刊论文</div>
+    </div>
+    <div class="output-card animate-in" style="animation-delay:0.2s">
+      <div class="output-num">9</div>
+      <div class="output-label">SCI一区TOP / CCF-A 论文</div>
+    </div>
+    <div class="output-card animate-in" style="animation-delay:0.3s">
+      <div class="output-num">10+</div>
+      <div class="output-label">国家发明专利</div>
+    </div>
+    <div class="output-card animate-in" style="animation-delay:0.4s">
+      <div class="output-num">5+</div>
+      <div class="output-label">科研项目课题</div>
+    </div>
+  </div>
+
+  <div class="quote-box animate-in">
+    <p>"我们致力于为每一位成员提供最优越的科研条件与竞赛平台，让创意生根，让才华绽放。"</p>
+    <div class="attr">—— 太原理工大学机器人团队</div>
+  </div>
+</section>
+
+<!-- Community Partners -->
+<section class="section" style="padding-top:0">
+  <div class="section-header animate-in">
+    <h2>🤝 社区伙伴</h2>
+    <div class="section-divider"></div>
+  </div>
+  <div class="grid-2" style="max-width:800px; margin:0 auto">
+    <div class="resource-card animate-in" style="animation-delay:0.1s">
+      <span class="resource-icon">🐳</span>
+      <h3>Datawhale</h3>
+      <p>国内知名开源数据科学社区，提供优质学习资源、组队学习与全国交流机会</p>
+    </div>
+    <div class="resource-card animate-in" style="animation-delay:0.2s">
+      <span class="resource-icon">🚩</span>
+      <h3>晋客松</h3>
+      <p>全国黑客松承办组织，连接全国开发者社区，激发创新活力</p>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<footer class="footer">
+  <p>© 2026 <span class="brand">TYUT Robot Team</span> — 太原理工大学机器人团队</p>
+</footer>
+
+<script src="/static/js/main.js"></script>
+</body>
+</html>

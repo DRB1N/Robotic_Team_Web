@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>培养方案 — 太原理工大学机器人团队</title>
+<link rel="stylesheet" href="/static/css/style.css">
+<style>
+/* Tabs */
+.tab-nav {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 2.5rem;
+}
+
+.tab-btn {
+  padding: 0.7rem 1.8rem;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.tab-btn:hover { color: var(--cyan); border-color: var(--cyan); }
+.tab-btn.active {
+  background: var(--cyan-dim);
+  border-color: var(--cyan);
+  color: var(--cyan);
+  box-shadow: var(--glow-cyan);
+}
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* Overview timeline */
+.timeline-overview {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0;
+  margin: 2rem 0;
+  position: relative;
+}
+
+.timeline-overview::before {
+  content: '';
+  position: absolute;
+  top: 50px;
+  left: 5%;
+  right: 5%;
+  height: 2px;
+  background: linear-gradient(90deg,
+    var(--cyan), var(--magenta), var(--yellow), var(--green), var(--cyan)
+  );
+  z-index: 0;
+}
+
+.tl-node {
+  flex: 0 1 130px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  padding: 0 0.5rem;
+}
+
+.tl-dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--bg-tertiary);
+  border: 2px solid var(--cyan);
+  margin: 0 auto 1rem;
+  position: relative;
+  z-index: 2;
+}
+
+.tl-node:nth-child(1) .tl-dot { border-color: #00f0ff; box-shadow: 0 0 10px #00f0ff; }
+.tl-node:nth-child(2) .tl-dot { border-color: #00ff88; box-shadow: 0 0 10px #00ff88; }
+.tl-node:nth-child(3) .tl-dot { border-color: #ff00aa; box-shadow: 0 0 10px #ff00aa; }
+.tl-node:nth-child(4) .tl-dot { border-color: #ffe600; box-shadow: 0 0 10px #ffe600; }
+.tl-node:nth-child(5) .tl-dot { border-color: #ff6600; box-shadow: 0 0 10px #ff6600; }
+.tl-node:nth-child(6) .tl-dot { border-color: #aa44ff; box-shadow: 0 0 10px #aa44ff; }
+.tl-node:nth-child(7) .tl-dot { border-color: #ff4488; box-shadow: 0 0 10px #ff4488; }
+
+.tl-stage {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.75rem;
+  color: var(--cyan);
+  margin-bottom: 0.25rem;
+}
+
+.tl-theme {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+/* Year section */
+.year-section {
+  margin-bottom: 2.5rem;
+}
+
+.year-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.1rem;
+  color: var(--cyan);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.year-title .badge {
+  font-size: 0.65rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.badge-cyan { background: var(--cyan-dim); color: var(--cyan); border: 1px solid var(--cyan); }
+.badge-magenta { background: var(--magenta-dim); color: var(--magenta); border: 1px solid var(--magenta); }
+.badge-yellow { background: var(--yellow-dim); color: var(--yellow); border: 1px solid var(--yellow); }
+
+/* Detail table */
+.detail-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.detail-table th {
+  background: var(--bg-tertiary);
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: var(--cyan);
+  border-bottom: 2px solid var(--border-color);
+}
+
+.detail-table th:first-child { width: 120px; }
+
+.detail-table td {
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.detail-table tr:hover td {
+  background: var(--cyan-dim);
+  color: var(--text-primary);
+}
+
+/* Scale badge */
+.scale-badge {
+  display: inline-block;
+  padding: 0.4rem 1rem;
+  background: var(--magenta-dim);
+  border: 1px solid var(--magenta);
+  border-radius: 4px;
+  font-size: 0.85rem;
+  color: var(--magenta);
+  margin-bottom: 1.5rem;
+  font-family: 'Orbitron', sans-serif;
+  letter-spacing: 0.05em;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .timeline-overview::before { display: none; }
+  .tl-node { flex: 0 1 45%; margin-bottom: 1rem; }
+  .detail-table { font-size: 0.75rem; }
+  .detail-table th, .detail-table td { padding: 0.5rem; }
+}
+</style>
+</head>
+<body>
+<div class="noise-overlay"></div>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <img src="/images/照片/logo.jpg" alt="Logo" onerror="this.style.display='none'">
+      <span>TYUT ROBOT</span>
+    </a>
+    <button class="menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+    <ul class="nav-links">
+      <li><a href="/">网站主页</a></li>
+      <li><a href="/organization">组织概况</a></li>
+      <li><a href="/training" class="active">培养方案</a></li>
+      <li><a href="/research">竞赛科研</a></li>
+      <li><button class="theme-toggle" onclick="toggleTheme()" title="切换主题">🌓</button></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-content">
+
+<section class="section">
+  <div class="section-header animate-in">
+    <h2>📋 培养方案</h2>
+    <p class="subtitle">TRAINING PROGRAM</p>
+    <div class="section-divider"></div>
+  </div>
+
+  <!-- Overview Timeline -->
+  <div class="section-header animate-in">
+    <h3 style="color:var(--text-primary); font-size:1.3rem;">时间线概览</h3>
+    <div class="section-divider"></div>
+  </div>
+  <div class="timeline-overview animate-in">
+    <div class="tl-node">
+      <div class="tl-dot"></div>
+      <div class="tl-stage">大一上</div>
+      <div class="tl-theme">基础培训 + 考核</div>
+    </div>
+    <div class="tl-node">
+      <div class="tl-dot"></div>
+      <div class="tl-stage">大一下</div>
+      <div class="tl-theme">竞赛季<br>（创意/实体+创意）</div>
+    </div>
+    <div class="tl-node">
+      <div class="tl-dot"></div>
+      <div class="tl-stage">大二上</div>
+      <div class="tl-theme">AI类竞赛<br>/ 硬件深化</div>
+    </div>
+    <div class="tl-node">
+      <div class="tl-dot"></div>
+      <div class="tl-stage">大二下</div>
+      <div class="tl-theme">大创申报<br>/ 招新培训</div>
+    </div>
+    <div class="tl-node">
+      <div class="tl-dot"></div>
+      <div class="tl-stage">大三上</div>
+      <div class="tl-theme">科研入门<br>论文撰写与发表</div>
+    </div>
+    <div class="tl-node">
+      <div class="tl-dot"></div>
+      <div class="tl-stage">大三下</div>
+      <div class="tl-theme">大创结题</div>
+    </div>
+    <div class="tl-node">
+      <div class="tl-dot"></div>
+      <div class="tl-stage">大四</div>
+      <div class="tl-theme">保研/考研<br>毕设/答辩/毕业</div>
+    </div>
+  </div>
+</section>
+
+<!-- Team detail tabs -->
+<section class="section" style="padding-top:0">
+  <div class="tab-nav animate-in">
+    <button class="tab-btn active" onclick="switchTab('aochuang')">💻 奥创队 · 软件</button>
+    <button class="tab-btn" onclick="switchTab('jiangfang')">🤖 匠坊队 · 硬件</button>
+    <button class="tab-btn" onclick="switchTab('newmedia')">📢 AI新媒体</button>
+  </div>
+
+  <!-- ==================== 奥创队 ==================== -->
+  <div class="tab-panel active" id="tab-aochuang">
+
+    <div class="scale-badge">招新规模：初始 50~100 人（QQ群）</div>
+
+    <!-- 大一上 -->
+    <div class="year-section animate-in">
+      <div class="year-title"><span class="badge badge-cyan">大一上</span> 基础培训 + 考核</div>
+      <table class="detail-table">
+        <thead><tr><th>月份</th><th>内容</th></tr></thead>
+        <tbody>
+          <tr><td>9 月</td><td>Python 基础</td></tr>
+          <tr><td>10 月</td><td>基础培训 + 考核；其他必备科研技能学习</td></tr>
+          <tr><td>11 月</td><td>数据处理基础；Linux 操作系统</td></tr>
+          <tr><td>12 月</td><td>深度学习入门；服务器使用</td></tr>
+          <tr><td>1 月</td><td>PyTorch 框架</td></tr>
+          <tr><td>2 月</td><td>深度学习基础阶段作业</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 大一下 -->
+    <div class="year-section animate-in">
+      <div class="year-title"><span class="badge badge-magenta">大一下</span> 竞赛季 · 创意类</div>
+      <table class="detail-table">
+        <thead><tr><th>月份</th><th>内容</th></tr></thead>
+        <tbody><tr><td>3 ~ 8 月</td><td>竞赛</td></tr></tbody>
+      </table>
+    </div>
+
+    <!-- 大二上 -->
+    <div class="year-section animate-in">
+      <div class="year-title"><span class="badge badge-yellow">大二上</span> AI 类竞赛</div>
+      <table class="detail-table">
+        <thead><tr><th>月份</th><th>内容</th></tr></thead>
+        <tbody>
+          <tr><td>9 月</td><td>深度学习进阶</td></tr>
+          <tr><td>10 月</td><td>具身智能</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 大二下 -->
+    <div class="year-section animate-in">
+      <div class="year-title"><span class="badge badge-cyan">大二下</span></div>
+      <table class="detail-table">
+        <thead><tr><th>月份</th><th>内容</th></tr></thead>
+        <tbody>
+          <tr><td>3 月</td><td>大创项目申报</td></tr>
+          <tr><td>4 月</td><td>第二次暑期集训（5 周左右，规模 25 人），集训期间完成换届</td></tr>
+          <tr><td>5 月</td><td>新生代团队核心基本培养完成</td></tr>
+          <tr><td>6 ~ 8 月</td><td>假期自行安排</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 大三上 -->
+    <div class="year-section animate-in">
+      <div class="year-title"><span class="badge badge-magenta">大三上</span></div>
+      <table class="detail-table">
+        <thead><tr><th>月份</th><th>内容</th></tr></thead>
+        <tbody>
+          <tr><td>9 月</td><td>科研入门，稳步推进，论文撰写与发表</td></tr>
+          <tr><td>10 月</td><td>大部分同学进入考研周期</td></tr>
+          <tr><td>11 月 ~ 2 月</td><td>（考研周期）</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 大三下 -->
+    <div class="year-section animate-in">
+      <div class="year-title"><span class="badge badge-yellow">大三下</span></div>
+      <table class="detail-table">
+        <thead><tr><th>月份</th><th>内容</th></tr></thead>
+        <tbody>
+          <tr><td>3 月</td><td>大创结题</td></tr>
+          <tr><td>4 月</td><td>（空）</td></tr>
+          <tr><td>5 月</td><td>第二次暑期集训（5 周左右，规模 25 人），论文撰写等；软件专业同学无法参加线下</td></tr>
+          <tr><td>6 ~ 8 月</td><td>假期自行安排</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 大四 -->
+    <div class="year-section animate-in">
+      <div class="year-title"><span class="badge badge-cyan">大四</span></div>
+      <table class="detail-table">
+        <thead><tr><th>月份</th><th>内容</th></tr></thead>
+        <tbody>
+          <tr><td>9 月</td><td>保研</td></tr>
+          <tr><td>10 ~ 12 月</td><td>找工作、考研</td></tr>
+          <tr><td>1 ~ 2 月</td><td>毕设</td></tr>
+          <tr><td>3 月</td><td>复试</td></tr>
+          <tr><td>5 月</td><td>毕业答辩</td></tr>
+          <tr><td>6 月</td><td>毕业季</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ==================== 匠坊队 ==================== -->
+  <div class="tab-panel" id="tab-jiangfang">
+
+    <div class="scale-badge">招新规模：初始 50~100 人（QQ群）</div>
+
+    <div class="year-section">
+      <div class="year-title"><span class="badge badge-cyan">大一上</span> 基础培训 + 考核</div>
+      <table class="detail-table">
+        <thead><tr><th>月份</th><th>内容</th></tr></thead>
+        <tbody>
+          <tr><td>9 月</td><td>Python 基础</td></tr>
+          <tr><td>10 月</td><td>基础培训 + 考核</td></tr>
+          <tr><td>11 月</td><td>仓库套件</td></tr>
+          <tr><td>12 月</td><td>硬件基础</td></tr>
+          <tr><td>1 月</td><td>自行设计比赛作品</td></tr>
+          <tr><td>2 月</td><td>（空）</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="year-section">
+      <div class="year-title"><span class="badge badge-magenta">大一下</span> 竞赛季 · 实体+创意类</div>
+      <table class="detail-table">
+        <thead><tr><th>月份</th><th>内容</th></tr></thead>
+        <tbody>
+          <tr><td>3 月</td><td>赛赛季（实体+创意类）；机械建模/建筑建模；仿真/渲染；Unity 开发；作品落地</td></tr>
+          <tr><td>4 ~ 8 月</td><td>实体竞赛</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="year-section">
+      <div class="year-title"><span class="badge badge-yellow">大二上</span></div>
+      <table class="detail-table">
+        <thead><tr><th>月份</th><th>内容</th></tr></thead>
+        <tbody>
+          <tr><td>10 月</td><td>ROS 学习</td></tr>
+          <tr><td>11 月</td><td>对已成型的硬件作品，继续打磨</td></tr>
+          <tr><td>1 ~ 2 月</td><td>（空）</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="year-section">
+      <div class="year-title"><span class="badge badge-cyan">大二下</span></div>
+      <table class="detail-table">
+        <thead><tr><th>月份</th><th>内容</th></tr></thead>
+        <tbody>
+          <tr><td>3 月</td><td>招新培训</td></tr>
+          <tr><td>4 月</td><td>第二次暑期集训（5 周左右，规模 25 人），集训期间完成换届</td></tr>
+          <tr><td>5 月</td><td>新生代团队核心基本培养完成</td></tr>
+          <tr><td>6 ~ 8 月</td><td>假期自行安排</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="year-section">
+      <div class="year-title"><span class="badge badge-magenta">大三 ~ 大四</span></div>
+      <table class="detail-table">
+        <thead><tr><th>阶段</th><th>内容</th></tr></thead>
+        <tbody>
+          <tr><td>大三上</td><td>（空）</td></tr>
+          <tr><td>大三下 5 月</td><td>第二次暑期集训（5 周左右，规模 25 人），论文撰写等；软件专业同学无法参加线下</td></tr>
+          <tr><td>大四</td><td>安排同奥创队</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ==================== AI新媒体 ==================== -->
+  <div class="tab-panel" id="tab-newmedia">
+
+    <div class="scale-badge">招新规模：初始 5~20 人（QQ群）</div>
+
+    <div class="year-section">
+      <div class="year-title"><span class="badge badge-cyan">大一上</span></div>
+      <table class="detail-table">
+        <thead><tr><th>月份</th><th>内容</th></tr></thead>
+        <tbody>
+          <tr><td>9 月</td><td>PPT 制作；Vibecoding 与 AI 提效</td></tr>
+          <tr><td>10 ~ 12 月</td><td>（空）</td></tr>
+          <tr><td>1 月</td><td>公众号运营与视频剪辑</td></tr>
+          <tr><td>2 月</td><td>（空）</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="year-section">
+      <div class="year-title"><span class="badge badge-magenta">大一下</span></div>
+      <table class="detail-table">
+        <thead><tr><th>月份</th><th>内容</th></tr></thead>
+        <tbody>
+          <tr><td>3 月</td><td>创意类比赛参与；运营策划（Datawhale 运营助教）</td></tr>
+          <tr><td>4 ~ 5 月</td><td>（空）</td></tr>
+          <tr><td>6 月</td><td>留校比赛或线上学习</td></tr>
+          <tr><td>7 ~ 8 月</td><td>假期自行安排</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="year-section">
+      <div class="year-title"><span class="badge badge-yellow">大二上</span></div>
+      <table class="detail-table">
+        <thead><tr><th>月份</th><th>内容</th></tr></thead>
+        <tbody>
+          <tr><td>9 月</td><td>活动策划与承接举办</td></tr>
+          <tr><td>10 月 ~ 大四</td><td>（未标注具体内容）</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</section>
+
+</div>
+
+<footer class="footer">
+  <p>© 2026 <span class="brand">TYUT Robot Team</span> — 太原理工大学机器人团队</p>
+</footer>
+
+<script src="/static/js/main.js"></script>
+<script>
+function switchTab(name) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>

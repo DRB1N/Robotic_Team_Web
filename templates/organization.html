@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>组织概况 — 太原理工大学机器人团队</title>
+<link rel="stylesheet" href="/static/css/style.css">
+<style>
+/* Teacher cards */
+.teacher-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  gap: 2.5rem;
+  margin-top: 2rem;
+}
+
+.teacher-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.4s;
+}
+
+.teacher-card:hover {
+  border-color: var(--cyan);
+  box-shadow: 0 20px 60px rgba(0, 240, 255, 0.08);
+}
+
+.teacher-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 2rem 2rem 1rem;
+}
+
+.teacher-avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 2px solid var(--cyan);
+  object-fit: cover;
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
+  flex-shrink: 0;
+}
+
+.teacher-info h3 {
+  color: var(--cyan);
+  font-size: 1.3rem;
+  margin-bottom: 0.25rem;
+}
+
+.teacher-info .title {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.teacher-info .email {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-family: 'Rajdhani', monospace;
+  margin-top: 0.25rem;
+}
+
+.teacher-body {
+  padding: 0 2rem 2rem;
+}
+
+.teacher-body .label {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.7rem;
+  color: var(--magenta);
+  letter-spacing: 0.1em;
+  margin-bottom: 0.5rem;
+  display: inline-block;
+  border-bottom: 1px solid var(--magenta);
+  padding-bottom: 0.25rem;
+}
+
+.teacher-body p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.8;
+  margin-bottom: 1rem;
+}
+
+.achievement-list,
+.paper-list {
+  list-style: none;
+  padding: 0;
+}
+
+.achievement-list li,
+.paper-list li {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  line-height: 1.5;
+  padding-left: 1rem;
+  position: relative;
+}
+
+.achievement-list li::before,
+.paper-list li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: var(--cyan);
+  font-size: 0.7rem;
+}
+
+.paper-list li { font-family: 'Rajdhani', monospace; font-size: 0.8rem; }
+
+/* Sub-teams */
+.teams-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.team-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  transition: all 0.4s;
+}
+
+.team-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--cyan);
+}
+
+.team-card .emoji { font-size: 3rem; display: block; margin-bottom: 1rem; }
+.team-card h3 { margin-bottom: 0.5rem; }
+.team-card .team-role { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem; }
+.team-card p { color: var(--text-secondary); line-height: 1.6; font-size: 0.95rem; }
+
+.team-card:nth-child(1) h3 { color: var(--cyan); }
+.team-card:nth-child(2) h3 { color: var(--magenta); }
+.team-card:nth-child(3) h3 { color: var(--yellow); }
+
+/* Photos */
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.photo-card {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  transition: all 0.4s;
+  aspect-ratio: 4/3;
+}
+
+.photo-card:hover {
+  border-color: var(--cyan);
+  box-shadow: var(--glow-cyan);
+  transform: scale(1.02);
+}
+
+.photo-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s;
+}
+
+.photo-card:hover img { transform: scale(1.08); }
+
+.photo-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  background: linear-gradient(transparent, rgba(0,0,0,0.8));
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .teacher-grid { grid-template-columns: 1fr; }
+  .teacher-header { flex-direction: column; text-align: center; }
+}
+</style>
+</head>
+<body>
+<div class="noise-overlay"></div>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <img src="/images/照片/logo.jpg" alt="Logo" onerror="this.style.display='none'">
+      <span>TYUT ROBOT</span>
+    </a>
+    <button class="menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+    <ul class="nav-links">
+      <li><a href="/">网站主页</a></li>
+      <li><a href="/organization" class="active">组织概况</a></li>
+      <li><a href="/training">培养方案</a></li>
+      <li><a href="/research">竞赛科研</a></li>
+      <li><button class="theme-toggle" onclick="toggleTheme()" title="切换主题">🌓</button></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-content">
+
+<!-- Page Header -->
+<section class="section">
+  <div class="section-header animate-in">
+    <h2>🏛 组织概况</h2>
+    <p class="subtitle">ORGANIZATION OVERVIEW</p>
+    <div class="section-divider"></div>
+  </div>
+</section>
+
+<!-- Sub-teams -->
+<section class="section" style="padding-top:0">
+  <div class="section-header animate-in">
+    <h2>三大战队</h2>
+    <div class="section-divider"></div>
+  </div>
+  <div class="teams-grid">
+    <div class="team-card animate-in" style="animation-delay:0.1s">
+      <span class="emoji">🤖</span>
+      <h3>匠坊队</h3>
+      <div class="team-role">硬件开发方向</div>
+      <p>从电路设计到机械结构，亲手搭建机器人的"骨骼与神经"。涵盖PCB设计、3D建模、嵌入式系统开发、ROS机器人操作系统等领域。招新规模：初始 50~100 人。</p>
+    </div>
+    <div class="team-card animate-in" style="animation-delay:0.2s">
+      <span class="emoji">💻</span>
+      <h3>奥创队</h3>
+      <div class="team-role">软件开发方向</div>
+      <p>从算法到具身智能，赋予机器人"思考与行动"的能力。深耕深度学习、计算机视觉、自然语言处理、大模型应用。招新规模：初始 50~100 人。</p>
+    </div>
+    <div class="team-card animate-in" style="animation-delay:0.3s">
+      <span class="emoji">📢</span>
+      <h3>团委 · AI新媒体</h3>
+      <div class="team-role">新媒体宣传方向（新增）</div>
+      <p>用镜头和文字记录技术之美，让更多人看见机器人的力量。运营公众号、视频剪辑、活动策划与承接。招新规模：初始 5~20 人。</p>
+    </div>
+  </div>
+</section>
+
+<!-- Teachers -->
+<section class="section">
+  <div class="section-header animate-in">
+    <h2>🎓 指导老师</h2>
+    <div class="section-divider"></div>
+    <p class="subtitle">计算机学院 & 人工智能学院教授级专家</p>
+  </div>
+  <div class="teacher-grid">
+    <!-- Teacher 1: Li Yidi -->
+    <div class="teacher-card animate-in" style="animation-delay:0.1s">
+      <div class="teacher-header">
+        <img class="teacher-avatar" src="/images/导师/李一迪.png" alt="李一迪" onerror="this.style.background='var(--bg-tertiary)'">
+        <div class="teacher-info">
+          <h3>李一迪</h3>
+          <div class="title">副教授 · 硕士生导师<br>计算机科学与技术学院 / 人工智能学院</div>
+          <div class="email">🏫 个人主页：liyidi.github.io</div>
+        </div>
+      </div>
+      <div class="teacher-body">
+        <span class="label">研究方向</span>
+        <p>计算机视觉、深度学习、多模态学习。聚焦于多模态感知与认知、多模态大数据分析技术，强化人机对话与鲁棒认知、多模态语义理解等研究。</p>
+        <span class="label">科研成果</span>
+        <ul class="achievement-list">
+          <li>在人工智能、模式识别等SCI期刊发表论文 30+ 篇</li>
+          <li>以第一/通讯作者发表 SCI一区TOP / CCF-A类论文 9 篇</li>
+          <li>主持国家自然科学基金、山西省重点研究计划等科研课题 5 项</li>
+          <li>获授权国家发明专利 10+ 项</li>
+          <li>荣获 ACM 2023 太原分会"学术新星奖"</li>
+          <li>指导学生获 2025 年国际人工智能大会 Best Student Paper Award</li>
+          <li>荣获 IEEE Outstanding Service Award（杰出服务奖）</li>
+        </ul>
+        <span class="label">学术服务</span>
+        <p>担任 2024 IEEE SWC 分论坛主席、2025 国际 Cyberworlds 大会组委会主席、2024 中国多媒体大会/2025 国际人工智能大会/2025 国际智能大会分论坛主席、ICCRE2026 大会报告人。担任多个人工智能领域 SCI一区TOP 期刊审稿人。</p>
+        <span class="label">教学成果</span>
+        <ul class="achievement-list">
+          <li>主讲《人工智能》等专业核心课，主持省教改项目 2 项</li>
+          <li>指导国家级大学生创新创业项目 2 项</li>
+          <li>指导学生获 A1 类高水平学科竞赛国家级奖项 10+ 项</li>
+          <li>全国校园人工智能算法精英大赛/全国三维数字化创新设计大赛/中国机器人及人工智能大赛"优秀指导教师"</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Teacher 2: Xu Zhenhuan -->
+    <div class="teacher-card animate-in" style="animation-delay:0.3s">
+      <div class="teacher-header">
+        <img class="teacher-avatar" src="/images/导师/徐震寰.png" alt="徐震寰" onerror="this.style.background='var(--bg-tertiary)'">
+        <div class="teacher-info">
+          <h3>徐震寰</h3>
+          <div class="title">讲师 · 博士<br>人工智能学院</div>
+          <div class="email">📧 xuzhenhuan@tyut.edu.cn</div>
+        </div>
+      </div>
+      <div class="teacher-body">
+        <span class="label">研究方向</span>
+        <p>深度学习、信号处理。主要从事电磁信号智能处理、深度学习算法等相关领域的研究工作。</p>
+        <span class="label">教育背景</span>
+        <p>中国地质大学（武汉）地球物理学博士，武汉理工大学电子信息学士，现为太原理工大学人工智能学院讲师。</p>
+        <span class="label">主讲课程</span>
+        <p>《数字图像处理》《信号处理》《数字信号与系统》《深度学习实训》《人工智能系统架构课程设计》等</p>
+        <span class="label">科研项目</span>
+        <ul class="achievement-list">
+          <li>主持山西省教改项目 1 项</li>
+          <li>主持国家重点实验室开放课题基金 1 项</li>
+          <li>主持太原理工大学校级基金 1 项</li>
+        </ul>
+        <span class="label">代表论文</span>
+        <ul class="paper-list">
+          <li>Hu S. et al. Identification of shaft-rate magnetic field... IEEE TGRS 2024 (SCI一区TOP)</li>
+          <li>Luo M., Xu Z. et al. A tracking approach of a moving ferromagnetic object... IEEE TGRS 2024 (SCI一区TOP)</li>
+          <li>Xu Z. et al. Adaptive Fourier decomposition based signal extraction... IEEE ICASSP 2024 (CCF-B)</li>
+          <li>Xu Z. et al. Effects of short-range attraction on jamming transition. Chinese Physics B 2021 (SCI三区)</li>
+          <li>徐震寰 等. 时频域能量谱法在海底地震数据处理中的应用. 地球物理学报 2019 (SCI四区)</li>
+        </ul>
+        <span class="label">竞赛指导</span>
+        <ul class="achievement-list">
+          <li>山西省"互联网+"大学生创新创业大赛优秀指导教师</li>
+          <li>指导学生获"挑战杯"中国大学生创业计划竞赛国家级铜奖</li>
+          <li>指导学生获山西省"互联网+"大学生创新创业大赛金奖</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Team Photos -->
+<section class="section">
+  <div class="section-header animate-in">
+    <h2>📸 团队风采</h2>
+    <div class="section-divider"></div>
+  </div>
+  <div class="photo-grid">
+    <div class="photo-card animate-in" style="animation-delay:0.1s">
+      <img src="/images/合照/2026全国大学生跨校创新实践训练营.jpg" alt="训练营" onerror="this.style.background='var(--bg-tertiary)'">
+      <div class="photo-caption">2026 全国大学生跨校创新实践训练营</div>
+    </div>
+    <div class="photo-card animate-in" style="animation-delay:0.2s">
+      <img src="/images/合照/“九天”梧桐杯智能体赛道金奖.jpg" alt="梧桐杯金奖" onerror="this.style.background='var(--bg-tertiary)'">
+      <div class="photo-caption">"九天"梧桐杯智能体赛道金奖</div>
+    </div>
+    <div class="photo-card animate-in" style="animation-delay:0.3s">
+      <img src="/images/合照/团队首届毕业生.png" alt="首届毕业生" onerror="this.style.background='var(--bg-tertiary)'">
+      <div class="photo-caption">团队首届毕业生</div>
+    </div>
+    <div class="photo-card animate-in" style="animation-delay:0.4s">
+      <img src="/images/合照/第19届全国三维数字化创新设计大赛承办方.jpg" alt="3D大赛承办" onerror="this.style.background='var(--bg-tertiary)'">
+      <div class="photo-caption">第19届全国三维数字化创新设计大赛承办</div>
+    </div>
+    <div class="photo-card animate-in" style="animation-delay:0.5s">
+      <img src="/images/合照/第二十八届中国机器人及人工智能大赛决赛.jpg" alt="机器人及AI大赛" onerror="this.style.background='var(--bg-tertiary)'">
+      <div class="photo-caption">第28届中国机器人及人工智能大赛决赛</div>
+    </div>
+    <div class="photo-card animate-in" style="animation-delay:0.6s">
+      <img src="/images/合照/第十九届先进机器人及仿真技术大赛.jpg" alt="仿真技术大赛" onerror="this.style.background='var(--bg-tertiary)'">
+      <div class="photo-caption">第19届先进机器人及仿真技术大赛</div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<footer class="footer">
+  <p>© 2026 <span class="brand">TYUT Robot Team</span> — 太原理工大学机器人团队</p>
+</footer>
+
+<script src="/static/js/main.js"></script>
+</body>
+</html>

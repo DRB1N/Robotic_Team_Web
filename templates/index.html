@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>太原理工大学机器人团队 · 2026纳新</title>
+<link rel="stylesheet" href="/static/css/style.css">
+<style>
+/* ── Hero Section ─────────────────────────────────── */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+#three-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* QR float bar */
+.qr-bar {
+  position: fixed;
+  top: 85px;
+  right: 1.5rem;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.qr-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.6rem;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s;
+  width: 100px;
+}
+
+.qr-card:hover {
+  border-color: var(--cyan);
+  box-shadow: var(--glow-cyan);
+  transform: scale(1.05);
+}
+
+.qr-card img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.qr-card span {
+  display: block;
+  font-size: 0.65rem;
+  font-family: 'Orbitron', sans-serif;
+  color: var(--cyan);
+  margin-top: 0.25rem;
+}
+
+/* Hero content */
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 900px;
+  padding: 2rem;
+}
+
+.hero-badge {
+  display: inline-block;
+  padding: 0.4rem 1.2rem;
+  border: 1px solid var(--magenta);
+  border-radius: 20px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.75rem;
+  color: var(--magenta);
+  letter-spacing: 0.15em;
+  margin-bottom: 2rem;
+  animation: pulse 2s infinite;
+}
+
+.hero h1 {
+  font-size: clamp(2.5rem, 7vw, 5rem);
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+
+.hero h1 .line1 { display: block; color: var(--text-primary); }
+.hero h1 .line2 {
+  display: block;
+  color: var(--cyan);
+  animation: neonPulse 3s infinite;
+}
+
+.hero-desc {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 2rem auto;
+  line-height: 1.8;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+/* Team path cards */
+.path-section { padding-bottom: 6rem; }
+
+.path-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+}
+
+.path-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  transition: all 0.4s;
+  position: relative;
+}
+
+.path-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--cyan);
+  box-shadow: 0 20px 60px rgba(0, 240, 255, 0.1);
+}
+
+.path-icon {
+  font-size: 3.5rem;
+  margin-bottom: 1.5rem;
+  display: block;
+}
+
+.path-card h3 {
+  color: var(--cyan);
+  margin-bottom: 0.75rem;
+  font-size: 1.4rem;
+}
+
+.path-card p {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.path-card:nth-child(1) { border-top: 3px solid var(--cyan); }
+.path-card:nth-child(2) { border-top: 3px solid var(--magenta); }
+.path-card:nth-child(3) { border-top: 3px solid var(--yellow); }
+
+/* Achievement numbers */
+.stats-row {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  flex-wrap: wrap;
+  margin: 3rem 0;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-num {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--cyan);
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+}
+
+.stat-label {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
+}
+
+/* Support section */
+.support-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.support-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  transition: all 0.3s;
+}
+
+.support-item:hover {
+  border-color: var(--magenta);
+  box-shadow: var(--glow-magenta);
+}
+
+.support-icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.support-item h4 { color: var(--text-primary); margin-bottom: 0.25rem; }
+.support-item p { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5; }
+
+/* Growth chain */
+.chain {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin: 2rem 0;
+}
+
+.chain-node {
+  padding: 1rem 1.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--cyan);
+  border-radius: 8px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.85rem;
+  color: var(--cyan);
+  text-align: center;
+  transition: all 0.3s;
+}
+
+.chain-node:hover {
+  box-shadow: var(--glow-cyan);
+  background: var(--cyan-dim);
+}
+
+.chain-arrow {
+  color: var(--magenta);
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* Compiled line */
+.compiled-line {
+  text-align: center;
+  font-size: 1.4rem;
+  color: var(--cyan);
+  font-family: 'Orbitron', sans-serif;
+  padding: 3rem 0;
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+}
+
+.compiled-line .cursor {
+  display: inline-block;
+  width: 3px;
+  height: 1.2em;
+  background: var(--cyan);
+  margin-left: 4px;
+  vertical-align: text-bottom;
+  animation: pulse 1s infinite;
+}
+
+@media (max-width: 768px) {
+  .qr-bar {
+    position: relative;
+    top: auto;
+    right: auto;
+    flex-direction: row;
+    justify-content: center;
+    margin: 1rem auto;
+    padding: 0 1rem;
+  }
+  .qr-card { width: 90px; }
+  .qr-card img { width: 60px; height: 60px; }
+  .stats-row { gap: 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="noise-overlay"></div>
+
+<!-- QR Code Float Bar -->
+<div class="qr-bar">
+  <div class="qr-card">
+    <img src="/images/照片/group.png" alt="QQ群二维码" onerror="this.style.display='none';this.parentElement.querySelector('.fallback').style.display='block'">
+    <div class="fallback" style="display:none;font-size:0.7rem;color:var(--cyan)">QQ群</div>
+    <span>QQ群</span>
+  </div>
+  <div class="qr-card">
+    <img src="/images/照片/weixin.jpg" alt="微信公众号" onerror="this.style.display='none';this.parentElement.querySelector('.fallback-wx').style.display='block'">
+    <div class="fallback-wx" style="display:none;font-size:0.7rem;color:var(--cyan)">公众号</div>
+    <span>公众号</span>
+  </div>
+</div>
+
+<!-- Navigation -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <img src="/images/照片/logo.jpg" alt="Logo" onerror="this.style.display='none'">
+      <span>TYUT ROBOT</span>
+    </a>
+    <button class="menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+    <ul class="nav-links">
+      <li><a href="/" class="active">网站主页</a></li>
+      <li><a href="/organization">组织概况</a></li>
+      <li><a href="/training">培养方案</a></li>
+      <li><a href="/research">竞赛科研</a></li>
+      <li><button class="theme-toggle" onclick="toggleTheme()" title="切换主题">🌓</button></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- 3D Background -->
+<canvas id="three-bg"></canvas>
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">🚀 2026 纳新正式启动</div>
+    <h1>
+      <span class="line1">太原理工大学</span>
+      <span class="line2" data-text="机器人团队">机器人团队</span>
+    </h1>
+    <p class="hero-desc">
+      你好，新同学。<br>
+      如果你曾对机器人、人工智能，或者"让机器动起来"这件事产生过哪怕一瞬间的好奇——那么，这里或许就是你想要停留的地方。
+    </p>
+    <div class="hero-buttons">
+      <a href="/training" class="btn btn-primary">🔧 了解培养方案</a>
+      <a href="/organization" class="btn btn-outline">👥 认识我们</a>
+    </div>
+  </div>
+</section>
+
+<!-- Path Section -->
+<section class="section path-section">
+  <div class="section-header animate-in">
+    <h2>🛠 三条成长路线，总有一条适合你</h2>
+    <div class="section-divider"></div>
+  </div>
+  <div class="path-cards">
+    <div class="path-card animate-in" style="animation-delay: 0.1s">
+      <span class="path-icon">🤖</span>
+      <h3>硬件开发 · 匠坊队</h3>
+      <p>从电路设计到机械结构，亲手搭建机器人的"骨骼与神经"。PCB设计、3D建模、嵌入式开发，让你的创造从图纸走向现实。</p>
+    </div>
+    <div class="path-card animate-in" style="animation-delay: 0.3s">
+      <span class="path-icon">💻</span>
+      <h3>软件开发 · 奥创队</h3>
+      <p>从算法到具身智能，赋予机器人"思考与行动"的能力。深度学习、计算机视觉、机器人操作系统，成为AI时代的造物者。</p>
+    </div>
+    <div class="path-card animate-in" style="animation-delay: 0.5s">
+      <span class="path-icon">📢</span>
+      <h3>新媒体宣传 · 团委</h3>
+      <p>用镜头和文字记录技术之美，让更多人看见机器人的力量。公众号运营、视频剪辑、活动策划，做技术与世界的连接者。</p>
+    </div>
+  </div>
+</section>
+
+<!-- Achievements -->
+<section class="section" style="padding-top:0">
+  <div class="section-header animate-in">
+    <h2>🏆 我们的成绩单</h2>
+    <div class="section-divider"></div>
+  </div>
+  <div class="stats-row animate-in">
+    <div class="stat-item">
+      <div class="stat-num">30+</div>
+      <div class="stat-label">SCI论文发表</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">10+</div>
+      <div class="stat-label">国家发明专利</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">10+</div>
+      <div class="stat-label">国家级竞赛奖项</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">5+</div>
+      <div class="stat-label">科研项目课题</div>
+    </div>
+  </div>
+</section>
+
+<!-- Who stands behind you -->
+<section class="section" style="padding-top:0">
+  <div class="section-header animate-in">
+    <h2>👥 你身后站着谁</h2>
+    <div class="section-divider"></div>
+  </div>
+  <div class="support-grid">
+    <div class="support-item animate-in" style="animation-delay: 0.1s">
+      <span class="support-icon">🎓</span>
+      <div>
+        <h4>教授级专家指导</h4>
+        <p>计算机学院 & 人工智能学院教授级专家，手把手带你做论文、打竞赛、做科研</p>
+      </div>
+    </div>
+    <div class="support-item animate-in" style="animation-delay: 0.2s">
+      <span class="support-icon">⚡</span>
+      <div>
+        <h4>极客学长学姐</h4>
+        <p>开源精神刻在骨子里，乐于分享、倾囊相授，传承每一代的技术积累</p>
+      </div>
+    </div>
+    <div class="support-item animate-in" style="animation-delay: 0.3s">
+      <span class="support-icon">🌐</span>
+      <div>
+        <h4>全国社区连接</h4>
+        <p>与 Datawhale、晋客松（全国黑客松承办组织）紧密联动，拓展全国视野</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- About threshold -->
+<section class="section" style="padding-top:0; text-align:center">
+  <div class="section-header animate-in">
+    <h2>💡 关于门槛</h2>
+    <div class="section-divider"></div>
+  </div>
+  <p style="font-size:1.2rem; color:var(--text-secondary); max-width:600px; margin:0 auto; line-height:1.8">
+    不限专业 · 不限背景 · <span style="color:var(--green)">零基础友好</span><br><br>
+    没有技术背景？没关系，我们会从头培养。<br>
+    有技术背景？那更好，这里会让你飞得更高。
+  </p>
+</section>
+
+<!-- Growth chain -->
+<section class="section" style="padding-top:2rem; text-align:center">
+  <div class="section-header animate-in">
+    <h2>🌱 一条完整的成长链路</h2>
+    <div class="section-divider"></div>
+  </div>
+  <div class="chain animate-in">
+    <div class="chain-node">📖 知识学习</div>
+    <div class="chain-arrow">→</div>
+    <div class="chain-node">🔬 项目实践</div>
+    <div class="chain-arrow">→</div>
+    <div class="chain-node">🏆 竞赛转化</div>
+    <div class="chain-arrow">→</div>
+    <div class="chain-node">📝 科研培养</div>
+  </div>
+  <p style="color:var(--text-muted); margin-top:1rem">已经为你铺好。</p>
+</section>
+
+<!-- Ending -->
+<section class="section" style="text-align:center; padding-bottom:6rem">
+  <div class="compiled-line">
+    期待与你的第一次编译。<span class="cursor"></span>
+  </div>
+  <p style="color:var(--text-muted); font-family:'Orbitron',sans-serif; font-size:1.1rem;">
+    太原理工大学机器人团队 · 2026
+  </p>
+</section>
+
+<footer class="footer">
+  <p>© 2026 <span class="brand">TYUT Robot Team</span> — 太原理工大学机器人团队</p>
+</footer>
+
+<!-- Three.js -->
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+  }
+}
+</script>
+<script type="module" src="/static/js/three-bg.js"></script>
+<script src="/static/js/main.js"></script>
+</body>
+</html>
