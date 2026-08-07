@@ -986,6 +986,8 @@ a:hover { color: var(--magenta); }
   .qr-card img {
     width: 80px;
     height: 80px;
+    background: #fff;
+    padding: 3px;
   }
   .qr-card span {
     font-size: 0.65rem;
@@ -3218,12 +3220,11 @@ a:hover { color: var(--magenta); }
 
 /* ── QR bar neon upgrade ─────────────────────────────────── */
 .qr-card {
-  background: linear-gradient(135deg, rgba(15, 15, 36, 0.95) 0%, rgba(10, 10, 26, 0.98) 100%);
+  background: #0f0f24;
   border: 1px solid var(--cyan);
   border-radius: 10px;
   padding: 0.7rem;
   text-align: center;
-  backdrop-filter: blur(12px);
   transition: all 0.3s;
   width: 110px;
   box-shadow: 0 0 20px rgba(0, 240, 255, 0.15), inset 0 0 15px rgba(0, 240, 255, 0.03);
@@ -3252,6 +3253,8 @@ a:hover { color: var(--magenta); }
   width: 90px;
   height: 90px;
   border-radius: 4px;
+  background: #fff;
+  padding: 4px;
 }
 
 .qr-card span {
