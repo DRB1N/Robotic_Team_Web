@@ -48,7 +48,13 @@
       "Bash(taskkill /F /IM python.exe)",
       "Bash(tasklist //FI \"IMAGENAME eq python.exe\" //FO CSV)",
       "Read(//tmp/**)",
-      "Bash(xargs sed *)"
+      "Bash(xargs sed *)",
+      "Bash(pkill -f \"uvicorn main:app\")",
+      "Bash(nohup python *)",
+      "Bash(echo \"Server PID: $!\")",
+      "Bash(awk '{print $5}')",
+      "Bash(timeout 5 python -c ' *)",
+      "Bash(kill %1)"
     ]
   }
 }

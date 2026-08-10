@@ -1,4 +1,5 @@
-from fastapi import FastAPI, Request, Response
+from fastapi import FastAPI, Request, Response, Body, Query, Depends
+from pydantic import BaseModel
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import JSONResponse
@@ -18,6 +19,21 @@ templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
 DB_PATH = os.path.join(BASE_DIR, "likes.db")
 
 
+class GuestbookContent(BaseModel):
+    content: str
+
+
+class LoginForm(BaseModel):
+    username: str
+    password: str
+
+
+class RegisterForm(BaseModel):
+    username: str
+    email: str
+    password: str
+
+
 def get_db():
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
@@ -32,6 +48,7 @@ def init_db():
             username TEXT UNIQUE NOT NULL,
             email TEXT NOT NULL,
             password_hash TEXT NOT NULL,
+            MIHRIER INTEGER DEFAULT 0,
             created_at TEXT NOT NULL
         )
     """)
@@ -51,6 +68,13 @@ def init_db():
             is_deleted INTEGER DEFAULT 0
         )
     """)
+    # Migrate existing DB: ensure MIHRIER column is INTEGER (0/1)
+    cols = [r[1] for r in conn.execute("PRAGMA table_info(users)").fetchall()]
+    if "MIHRIER" in cols:
+        conn.execute("UPDATE users SET MIHRIER = 0 WHERE MIHRIER = 'NONE' OR MIHRIER IS NULL")
+        conn.execute("UPDATE users SET MIHRIER = 1 WHERE MIHRIER != 0 AND MIHRIER != '0'")
+    else:
+        conn.execute("ALTER TABLE users ADD COLUMN MIHRIER INTEGER DEFAULT 0")
     conn.commit()
     conn.close()
 
@@ -68,7 +92,7 @@ def get_current_user(request: Request):
         return None
     conn = get_db()
     row = conn.execute(
-        """SELECT u.id, u.username, u.email FROM users u
+        """SELECT u.id, u.username, u.email, u.MIHRIER FROM users u
            JOIN sessions s ON u.id = s.user_id
            WHERE s.token = ?""",
         (token,)
@@ -87,44 +111,38 @@ def get_client_ip(request: Request):
 # ── Page routes ──────────────────────────────────────────────
 
 @app.get("/")
-async def index(request: Request):
-    user = get_current_user(request)
+async def index(request: Request, user: dict = Depends(get_current_user)):
     return templates.TemplateResponse("index.html", {"request": request, "page": "index", "user": user})
 
 
 @app.get("/organization")
-async def organization(request: Request):
-    user = get_current_user(request)
+async def organization(request: Request, user: dict = Depends(get_current_user)):
     return templates.TemplateResponse("organization.html", {"request": request, "page": "organization", "user": user})
 
 
 @app.get("/training")
-async def training(request: Request):
-    user = get_current_user(request)
+async def training(request: Request, user: dict = Depends(get_current_user)):
     return templates.TemplateResponse("training.html", {"request": request, "page": "training", "user": user})
 
 
 @app.get("/research")
-async def research(request: Request):
-    user = get_current_user(request)
+async def research(request: Request, user: dict = Depends(get_current_user)):
     return templates.TemplateResponse("research.html", {"request": request, "page": "research", "user": user})
 
 
 @app.get("/guestbook")
-async def guestbook(request: Request):
-    user = get_current_user(request)
+async def guestbook(request: Request, user: dict = Depends(get_current_user)):
     return templates.TemplateResponse("guestbook.html", {"request": request, "page": "guestbook", "user": user})
 
 @app.get("/history")
-async def history(request: Request):
-    user = get_current_user(request)
+async def history(request: Request, user: dict = Depends(get_current_user)):
     return templates.TemplateResponse("history.html", {"request": request, "page": "history", "user": user})
 
 
 # ── Likes API ────────────────────────────────────────────────
 
 @app.get("/api/likes")
-async def get_likes(request: Request):
+async def get_likes(request: Request, user: dict = Depends(get_current_user)):
     conn = get_db()
     total = conn.execute("SELECT COALESCE(SUM(count), 0) FROM likes").fetchone()[0]
     conn.close()
@@ -132,7 +150,7 @@ async def get_likes(request: Request):
 
 
 @app.post("/api/like")
-async def like(request: Request):
+async def like(request: Request, user: dict = Depends(get_current_user)):
     ip = get_client_ip(request)
     today = datetime.date.today().isoformat()
     conn = get_db()
@@ -156,12 +174,10 @@ async def like(request: Request):
 # ── Auth APIs ────────────────────────────────────────────────
 
 @app.post("/api/register")
-async def register(request: Request):
-    data = await request.json()
-    username = data.get("username", "").strip()
-    email = data.get("email", "").strip()
-    password = data.get("password", "")
-
+async def register(form: RegisterForm):
+    username = form.username.strip()
+    email = form.email.strip()
+    password = form.password
     if not username or not email or not password:
         return JSONResponse({"error": "所有字段都是必填的"}, status_code=400)
     if len(username) < 2 or len(username) > 20:
@@ -178,7 +194,7 @@ async def register(request: Request):
     password_hash = hash_password(password)
     now = datetime.datetime.now().isoformat()
     conn.execute(
-        "INSERT INTO users (username, email, password_hash, created_at) VALUES (?, ?, ?, ?)",
+        "INSERT INTO users (username, email, password_hash, MIHRIER, created_at) VALUES (?, ?, ?, 0, ?)",
         (username, email, password_hash, now)
     )
     conn.commit()
@@ -187,11 +203,9 @@ async def register(request: Request):
 
 
 @app.post("/api/login")
-async def login(request: Request, response: Response):
-    data = await request.json()
-    username = data.get("username", "").strip()
-    password = data.get("password", "")
-
+async def login(response: Response, form: LoginForm):
+    username = form.username.strip()
+    password = form.password
     if not username or not password:
         return JSONResponse({"error": "用户名和密码不能为空"}, status_code=400)
 
@@ -235,11 +249,44 @@ async def logout(request: Request, response: Response):
 
 
 @app.get("/api/me")
-async def me(request: Request):
-    user = get_current_user(request)
+async def me(user: dict = Depends(get_current_user)):
     if not user:
         return JSONResponse({"error": "未登录"}, status_code=401)
-    return {"username": user["username"], "email": user["email"]}
+    return {"username": user["username"], "email": user["email"], "MIHRIER": bool(user.get("MIHRIER", 0))}
+
+
+# ── Admin Authorization API ──────────────────────────────────
+
+ADMIN_SECRET = "tyut_robot_admin_2026"
+
+@app.post("/api/admin/authorize")
+async def authorize_user(secret: str = Body(...), user_id: int = Body(...)):
+    if secret != ADMIN_SECRET:
+        return JSONResponse({"error": "无权访问"}, status_code=403)
+    if user_id is None:
+        return JSONResponse({"error": "user_id 不能为空"}, status_code=400)
+
+    conn = get_db()
+    user = conn.execute("SELECT id, username FROM users WHERE id = ?", (user_id,)).fetchone()
+    if not user:
+        conn.close()
+        return JSONResponse({"error": f"用户 ID {user_id} 不存在"}, status_code=404)
+
+    conn.execute("UPDATE users SET MIHRIER = 1 WHERE id = ?", (user["id"],))
+    conn.commit()
+    conn.close()
+    return {"message": f"用户 '{user['username']}' (ID: {user_id}) 的 MIHRIER 已设为 true", "user_id": user_id, "MIHRIER": True}
+
+
+@app.get("/api/admin/users")
+async def list_users(secret: str = Query(...)):
+    if secret != ADMIN_SECRET:
+        return JSONResponse({"error": "无权访问"}, status_code=403)
+
+    conn = get_db()
+    rows = conn.execute("SELECT id, username, email, MIHRIER, created_at FROM users ORDER BY id").fetchall()
+    conn.close()
+    return [{"id": r["id"], "username": r["username"], "email": r["email"], "MIHRIER": bool(r["MIHRIER"]), "created_at": r["created_at"]} for r in rows]
 
 
 # ── Guestbook APIs ───────────────────────────────────────────
@@ -273,7 +320,10 @@ async def create_guestbook(request: Request):
     if not user:
         return JSONResponse({"error": "请先登录"}, status_code=401)
 
-    data = await request.json()
+    try:
+        data = await request.json()
+    except Exception:
+        return JSONResponse({"error": "请求格式错误，请发送 JSON 格式数据"}, status_code=400)
     content = data.get("content", "").strip()
     if not content:
         return JSONResponse({"error": "留言不能为空"}, status_code=400)
@@ -292,8 +342,7 @@ async def create_guestbook(request: Request):
 
 
 @app.delete("/api/guestbook/{id}")
-async def delete_guestbook(id: int, request: Request):
-    user = get_current_user(request)
+async def delete_guestbook(id: int, user: dict = Depends(get_current_user)):
     if not user:
         return JSONResponse({"error": "请先登录"}, status_code=401)
 

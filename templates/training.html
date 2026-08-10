@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>培养方案 — 太原理工大学机器人团队</title>
-<link rel="stylesheet" href="/static/css/style.css?v=7">
+<link rel="stylesheet" href="/static/css/style.css?v=8">
 <style>
 .tab-panel { display: none; }
 .tab-panel.active { display: block; }
@@ -345,7 +345,7 @@
     <button class="tab-btn" onclick="switchTab('newmedia')">📢 AI新媒体</button>
   </div>
 
-  {% if user %}
+  {% if user and user.MIHRIER %}
   <!-- ==================== 奥创队 ==================== -->
   <div class="tab-panel active" id="tab-aochuang">
 
@@ -563,7 +563,7 @@
   <div class="lock-screen animate-in">
     <div class="lock-icon">🔒</div>
     <div class="lock-title">权限受限</div>
-    <div class="lock-msg">请成为 <span class="lock-highlight">MIHRIER</span> 后解锁查看</div>
+    <div class="lock-msg">你的 MIHRIER 状态为 <span class="lock-highlight">未授权</span>，请联系管理员审批后解锁</div>
     <button class="lock-btn" onclick="showAuthModal('login')">⚡ 立即登录 / 注册</button>
   </div>
   {% endif %}
