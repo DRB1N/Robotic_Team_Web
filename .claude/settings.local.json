@@ -44,7 +44,11 @@
       "Bash(echo \"likes GET: $\\(curl -s -o /dev/null -w '%{http_code}' http://127.0.0.1:8000/api/likes\\)\")",
       "Bash(echo \"like POST: $\\(curl -s -o /dev/null -w '%{http_code}' -X POST http://127.0.0.1:8000/api/like\\)\")",
       "Bash(powershell -Command \"Get-Process python -ErrorAction SilentlyContinue | Stop-Process -Force\")",
-      "Bash(grep -A8 \"^\\\\.robot-arm {$\")"
+      "Bash(grep -A8 \"^\\\\.robot-arm {$\")",
+      "Bash(taskkill /F /IM python.exe)",
+      "Bash(tasklist //FI \"IMAGENAME eq python.exe\" //FO CSV)",
+      "Read(//tmp/**)",
+      "Bash(xargs sed *)"
     ]
   }
 }

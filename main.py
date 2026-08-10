@@ -115,6 +115,11 @@ async def guestbook(request: Request):
     user = get_current_user(request)
     return templates.TemplateResponse("guestbook.html", {"request": request, "page": "guestbook", "user": user})
 
+@app.get("/history")
+async def history(request: Request):
+    user = get_current_user(request)
+    return templates.TemplateResponse("history.html", {"request": request, "page": "history", "user": user})
+
 
 # ── Likes API ────────────────────────────────────────────────
 

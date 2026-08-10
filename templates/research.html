@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>竞赛科研 — 太原理工大学机器人团队</title>
-<link rel="stylesheet" href="/static/css/style.css?v=5">
+<link rel="stylesheet" href="/static/css/style.css?v=7">
 <style>
 .resource-grid {
   display: grid;
@@ -21,6 +21,7 @@
   position: relative;
   overflow: hidden;
   backdrop-filter: blur(10px);
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.5s, border-color 0.5s;
 }
 .resource-card::before {
   content: '';
@@ -43,6 +44,10 @@
 .resource-card:hover { border-color: var(--cyan); }
 .resource-card:hover::before { opacity: 1; }
 .resource-card:hover::after { opacity: 1; }
+.resource-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 0 40px rgba(0, 240, 255, 0.2), 0 15px 50px rgba(0, 0, 0, 0.4);
+}
 
 .resource-icon {
   font-size: 3.5rem;
@@ -103,6 +108,7 @@
   position: relative;
   overflow: hidden;
   backdrop-filter: blur(10px);
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.5s, border-color 0.5s;
 }
 .platform-card::before {
   content: '';
@@ -125,6 +131,10 @@
 .platform-card:hover { border-color: var(--green); }
 .platform-card:hover::before { opacity: 1; }
 .platform-card:hover::after { opacity: 1; }
+.platform-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 0 30px rgba(0, 255, 136, 0.15), 0 12px 40px rgba(0, 0, 0, 0.4);
+}
 
 .platform-icon {
   font-size: 2.2rem;
@@ -162,6 +172,7 @@
   position: relative;
   overflow: hidden;
   backdrop-filter: blur(10px);
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.5s, border-color 0.5s;
 }
 .output-card::before {
   content: '';
@@ -174,6 +185,10 @@
 }
 .output-card:hover { border-color: var(--yellow); }
 .output-card:hover::before { opacity: 1; }
+.output-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 0 35px rgba(255, 230, 0, 0.2), 0 12px 40px rgba(0, 0, 0, 0.4);
+}
 
 .output-num {
   font-family: 'Orbitron', sans-serif;
@@ -235,6 +250,7 @@
       <li><a href="/organization">组织概况</a></li>
       <li><a href="/training">培养方案</a></li>
       <li><a href="/research" class="active">竞赛科研</a></li>
+      <li><a href="/history">发展历程</a></li>
       <li><a href="/guestbook">留言板</a></li>
       {% if user %}
       <li><span class="nav-user-tag">{{ user.username }}</span></li>
@@ -362,45 +378,9 @@
     <h2>🎖 竞赛成果</h2>
     <div class="section-divider"></div>
   </div>
-  <table class="comp-table animate-in">
-    <thead>
-      <tr><th>竞赛名称</th><th>成果</th></tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>"九天"梧桐杯智能体赛道</td>
-        <td><span class="award award-gold">金奖</span></td>
-      </tr>
-      <tr>
-        <td>中国机器人及人工智能大赛</td>
-        <td>多项国家级奖项</td>
-      </tr>
-      <tr>
-        <td>全国三维数字化创新设计大赛</td>
-        <td>国家级奖项 · 省赛承办方</td>
-      </tr>
-      <tr>
-        <td>先进机器人及仿真技术大赛</td>
-        <td>多项国家级奖项</td>
-      </tr>
-      <tr>
-        <td>"挑战杯"中国大学生创业计划竞赛</td>
-        <td><span class="award award-silver">国家级铜奖</span></td>
-      </tr>
-      <tr>
-        <td>全国大学生跨校创新实践训练营</td>
-        <td>优秀团队</td>
-      </tr>
-      <tr>
-        <td>山西省"互联网+"创新创业大赛</td>
-        <td>金奖</td>
-      </tr>
-      <tr>
-        <td>全国校园人工智能算法精英大赛</td>
-        <td>多项国家级奖项</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="animate-in" style="text-align:center; padding: 1rem 0;">
+    <img src="/images/其他/medal.jpg" alt="竞赛成果" style="max-width: 100%; max-height: 600px; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: 0 0 30px rgba(0, 240, 255, 0.1);" onerror="this.style.display='none'">
+  </div>
 </section>
 
 <!-- Academic Output -->
@@ -423,9 +403,13 @@
       <div class="output-label">国家发明专利</div>
     </div>
     <div class="output-card animate-in" style="animation-delay:0.4s">
-      <div class="output-num">5+</div>
+      <div class="output-num">10+</div>
       <div class="output-label">科研项目课题</div>
     </div>
+  </div>
+
+  <div class="animate-in" style="text-align:center; padding: 1.5rem 0;">
+    <img src="/images/其他/paper.jpg" alt="学术论文" style="max-width: 100%; max-height: 400px; border-radius: 12px; border: 1px solid var(--border-color); box-shadow: 0 0 25px rgba(255, 230, 0, 0.08);" onerror="this.style.display='none'">
   </div>
 
   <div class="quote-box animate-in">
@@ -460,7 +444,23 @@
   <p>© 2026 <span class="brand">TYUT Robot Team</span> — 太原理工大学机器人团队</p>
 </footer>
 
-<script src="/static/js/main.js?v=3"></script>
+<script src="/static/js/main.js?v=6"></script>
+<script>
+const revealEls = document.querySelectorAll('.reveal, .resource-card, .platform-card, .output-card');
+if ('IntersectionObserver' in window) {
+  const obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+  revealEls.forEach(function(el) { obs.observe(el); });
+} else {
+  revealEls.forEach(function(el) { el.classList.add('visible'); });
+}
+</script>
 
 <div id="auth-modal" class="modal-overlay" style="display:none">
   <div class="modal-card">

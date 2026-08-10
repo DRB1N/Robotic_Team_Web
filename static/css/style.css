@@ -3975,3 +3975,240 @@ a:hover { color: var(--magenta); }
   max-width: 850px;
   margin: 0 auto;
 }
+
+/* ════════════════════════════════════════════════════════════
+   ENHANCED ANIMATIONS — UI Polish for all pages
+   ════════════════════════════════════════════════════════════ */
+
+/* ── Stagger reveal on scroll ─────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(35px);
+  transition: opacity 0.7s ease-out, transform 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.reveal.from-left {
+  transform: translateX(-40px) translateY(0);
+}
+.reveal.from-right {
+  transform: translateX(40px) translateY(0);
+}
+.reveal.from-scale {
+  transform: scale(0.92) translateY(0);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0) translateX(0) scale(1);
+}
+
+/* ── Card hover lift (applied to any .card) ───────────────── */
+.card-lift {
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.5s;
+}
+.card-lift:hover {
+  transform: translateY(-8px);
+}
+
+/* ── Pulse ring on hover ──────────────────────────────────── */
+.pulse-ring {
+  position: relative;
+}
+.pulse-ring::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: inherit;
+  border: 2px solid transparent;
+  opacity: 0;
+  transition: all 0.4s;
+  pointer-events: none;
+}
+.pulse-ring:hover::after {
+  border-color: var(--cyan);
+  opacity: 0.6;
+  animation: ringPulse 1.2s ease-out infinite;
+}
+@keyframes ringPulse {
+  0% { inset: -4px; opacity: 0.6; }
+  100% { inset: -18px; opacity: 0; }
+}
+
+/* ── Float animation ──────────────────────────────────────── */
+@keyframes floatUp {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.float { animation: floatUp 3s ease-in-out infinite; }
+.float-delay { animation: floatUp 3s ease-in-out 0.5s infinite; }
+.float-delay2 { animation: floatUp 3s ease-in-out 1s infinite; }
+
+/* ── Shimmer sweep on hover ───────────────────────────────── */
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.shimmer::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.08), transparent);
+  transform: skewX(-25deg);
+  transition: left 0.7s;
+  pointer-events: none;
+  z-index: 10;
+}
+.shimmer:hover::before { left: 120%; }
+
+/* ── Glow border animation ────────────────────────────────── */
+.glow-border {
+  position: relative;
+  border: 1px solid var(--border-color);
+  transition: all 0.5s;
+}
+.glow-border::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: linear-gradient(45deg, var(--cyan), var(--magenta), var(--yellow), var(--cyan));
+  background-size: 400% 400%;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.5s;
+  animation: gradientShift 4s ease infinite;
+}
+.glow-border:hover::before { opacity: 0.6; }
+.glow-border:hover {
+  border-color: transparent;
+  box-shadow: 0 0 30px rgba(0, 240, 255, 0.2);
+}
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ── Tab enhanced ─────────────────────────────────────────── */
+.tab-nav { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; margin-bottom: 2rem; }
+.tab-btn {
+  padding: 0.7rem 1.5rem;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--text-secondary);
+  background: rgba(15, 15, 36, 0.6);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+}
+.tab-btn::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 50%;
+  width: 0; height: 2px;
+  background: var(--cyan);
+  box-shadow: 0 0 10px var(--cyan);
+  transition: all 0.4s;
+  transform: translateX(-50%);
+}
+.tab-btn:hover {
+  color: var(--cyan);
+  border-color: var(--cyan);
+  transform: translateY(-3px);
+  box-shadow: 0 0 25px rgba(0, 240, 255, 0.2);
+}
+.tab-btn:hover::before { width: 60%; }
+.tab-btn.active {
+  color: var(--cyan);
+  background: rgba(0, 240, 255, 0.1);
+  border-color: var(--cyan);
+  box-shadow: 0 0 25px rgba(0, 240, 255, 0.25), inset 0 0 20px rgba(0, 240, 255, 0.05);
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.4);
+}
+.tab-btn.active::before { width: 80%; }
+
+/* ── Section header stagger ───────────────────────────────── */
+.section-header.animate-in {
+  animation: headerIn 0.8s ease-out forwards;
+}
+@keyframes headerIn {
+  0% { opacity: 0; transform: translateY(-20px) scale(0.95); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ── Badge enhanced ───────────────────────────────────────── */
+.badge {
+  display: inline-block;
+  padding: 0.3rem 0.9rem;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+.badge::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent, rgba(255,255,255,0.1), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.5s;
+}
+.badge:hover::before { transform: translateX(100%); }
+.badge-cyan { background: rgba(0, 240, 255, 0.12); color: var(--cyan); border: 1px solid rgba(0, 240, 255, 0.3); box-shadow: 0 0 10px rgba(0, 240, 255, 0.2); }
+.badge-magenta { background: rgba(255, 0, 170, 0.12); color: var(--magenta); border: 1px solid rgba(255, 0, 170, 0.3); box-shadow: 0 0 10px rgba(255, 0, 170, 0.2); }
+.badge-yellow { background: rgba(255, 230, 0, 0.12); color: var(--yellow); border: 1px solid rgba(255, 230, 0, 0.3); box-shadow: 0 0 10px rgba(255, 230, 0, 0.2); }
+.badge-green { background: rgba(0, 255, 136, 0.12); color: var(--green); border: 1px solid rgba(0, 255, 136, 0.3); box-shadow: 0 0 10px rgba(0, 255, 136, 0.2); }
+
+/* ── Scale badge ──────────────────────────────────────────── */
+.scale-badge {
+  display: inline-block;
+  padding: 0.5rem 1.2rem;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--yellow);
+  border: 1px solid var(--yellow);
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(255, 230, 0, 0.1) 0%, rgba(255, 230, 0, 0.03) 100%);
+  box-shadow: 0 0 15px rgba(255, 230, 0, 0.2);
+  letter-spacing: 0.08em;
+  text-shadow: 0 0 8px rgba(255, 230, 0, 0.4);
+  margin-bottom: 1.5rem;
+  animation: badgeGlow 2s ease-in-out infinite;
+}
+@keyframes badgeGlow {
+  0%, 100% { box-shadow: 0 0 15px rgba(255, 230, 0, 0.2); }
+  50% { box-shadow: 0 0 25px rgba(255, 230, 0, 0.4); }
+}
+
+/* ── Lock screen enhanced ─────────────────────────────────── */
+.lock-btn {
+  animation: sweepShimmer 3s ease-in-out infinite;
+}
+@keyframes sweepShimmer {
+  0%, 100% { box-shadow: 0 0 25px rgba(0, 240, 255, 0.2), inset 0 0 15px rgba(0, 240, 255, 0.04); }
+  50% { box-shadow: 0 0 40px rgba(0, 240, 255, 0.4), inset 0 0 25px rgba(0, 240, 255, 0.08); }
+}
+
+/* ── Guestbook card enhanced ──────────────────────────────── */
+.gb-card {
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.gb-card:hover {
+  transform: translateY(-4px) translateX(3px);
+  box-shadow: 0 0 35px rgba(0, 240, 255, 0.15), 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* ── Responsive scroll animation disable ──────────────────── */
+@media (max-width: 768px) {
+  .reveal { transform: none !important; opacity: 1 !important; transition: none !important; }
+  .glow-border::before { display: none; }
+}

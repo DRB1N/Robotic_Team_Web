@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>培养方案 — 太原理工大学机器人团队</title>
-<link rel="stylesheet" href="/static/css/style.css?v=5">
+<link rel="stylesheet" href="/static/css/style.css?v=7">
 <style>
 .tab-panel { display: none; }
 .tab-panel.active { display: block; }
@@ -39,9 +39,9 @@
   position: relative;
   z-index: 1;
   padding: 0 0.5rem;
-  transition: transform 0.3s;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
-.tl-node:hover { transform: translateY(-3px); }
+.tl-node:hover { transform: translateY(-5px) scale(1.05); }
 
 .tl-dot {
   width: 18px;
@@ -101,6 +101,19 @@
 .year-section {
   margin-bottom: 2.5rem;
   padding: 0.5rem 0;
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.year-section.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+.year-section:nth-child(even) {
+  transform: translateX(20px);
+}
+.year-section:nth-child(even).visible {
+  transform: translateX(0);
 }
 
 .year-title {
@@ -113,6 +126,12 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  transition: all 0.3s;
+}
+.year-title:hover {
+  color: var(--magenta);
+  border-bottom-color: var(--magenta);
+  text-shadow: 0 0 15px rgba(255, 0, 170, 0.4);
 }
 
 .year-title .badge {
@@ -130,6 +149,90 @@
   .tl-node { flex: 0 1 45%; margin-bottom: 1.5rem; }
   .detail-table { font-size: 0.75rem; }
   .detail-table th, .detail-table td { padding: 0.5rem; }
+}
+
+/* Permission lock screen */
+.lock-screen {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: linear-gradient(135deg, rgba(15, 15, 36, 0.7) 0%, rgba(10, 10, 26, 0.8) 100%);
+  border: 2px dashed var(--border-color);
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+.lock-screen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0, 240, 255, 0.01) 3px, rgba(0, 240, 255, 0.01) 6px);
+  pointer-events: none;
+}
+.lock-icon {
+  font-size: 3.5rem;
+  margin-bottom: 1.2rem;
+  animation: lockPulse 2s ease-in-out infinite;
+  filter: drop-shadow(0 0 15px rgba(0, 240, 255, 0.4));
+}
+@keyframes lockPulse {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 15px rgba(0, 240, 255, 0.4)); }
+  50% { transform: scale(1.08); filter: drop-shadow(0 0 25px rgba(0, 240, 255, 0.7)); }
+}
+.lock-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--magenta);
+  letter-spacing: 0.15em;
+  text-shadow: 0 0 20px rgba(255, 0, 170, 0.5);
+  margin-bottom: 0.8rem;
+}
+.lock-msg {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+  line-height: 1.8;
+}
+.lock-highlight {
+  color: var(--cyan);
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  text-shadow: 0 0 15px rgba(0, 240, 255, 0.6);
+  letter-spacing: 0.08em;
+}
+.lock-btn {
+  display: inline-block;
+  padding: 1rem 2.5rem;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--cyan);
+  background: linear-gradient(135deg, rgba(0, 240, 255, 0.15) 0%, rgba(0, 240, 255, 0.05) 100%);
+  border: 1px solid var(--cyan);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.35s;
+  box-shadow: 0 0 25px rgba(0, 240, 255, 0.2), inset 0 0 15px rgba(0, 240, 255, 0.04);
+  position: relative;
+  overflow: hidden;
+}
+.lock-btn::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.2), transparent);
+  transform: skewX(-25deg);
+  transition: left 0.5s;
+}
+.lock-btn:hover::before { left: 120%; }
+.lock-btn:hover {
+  box-shadow: 0 0 40px rgba(0, 240, 255, 0.4), 0 0 80px rgba(0, 240, 255, 0.15);
+  text-shadow: 0 0 12px rgba(0, 240, 255, 0.6);
+  transform: translateY(-2px);
 }
 </style>
 </head>
@@ -157,6 +260,7 @@
       <li><a href="/organization">组织概况</a></li>
       <li><a href="/training" class="active">培养方案</a></li>
       <li><a href="/research">竞赛科研</a></li>
+      <li><a href="/history">发展历程</a></li>
       <li><a href="/guestbook">留言板</a></li>
       {% if user %}
       <li><span class="nav-user-tag">{{ user.username }}</span></li>
@@ -241,6 +345,7 @@
     <button class="tab-btn" onclick="switchTab('newmedia')">📢 AI新媒体</button>
   </div>
 
+  {% if user %}
   <!-- ==================== 奥创队 ==================== -->
   <div class="tab-panel active" id="tab-aochuang">
 
@@ -453,6 +558,16 @@
     </div>
   </div>
 
+  {% else %}
+  <!-- Permission Lock -->
+  <div class="lock-screen animate-in">
+    <div class="lock-icon">🔒</div>
+    <div class="lock-title">权限受限</div>
+    <div class="lock-msg">请成为 <span class="lock-highlight">MIHRIER</span> 后解锁查看</div>
+    <button class="lock-btn" onclick="showAuthModal('login')">⚡ 立即登录 / 注册</button>
+  </div>
+  {% endif %}
+
 </section>
 
 </div>
@@ -461,7 +576,31 @@
   <p>© 2026 <span class="brand">TYUT Robot Team</span> — 太原理工大学机器人团队</p>
 </footer>
 
-<script src="/static/js/main.js?v=3"></script>
+<script src="/static/js/main.js?v=6"></script>
+<script>
+function switchTab(name) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+/* ── Scroll reveal ────────────────────────────────────────── */
+const revealEls = document.querySelectorAll('.year-section, .reveal');
+if ('IntersectionObserver' in window) {
+  const obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+  revealEls.forEach(function(el) { obs.observe(el); });
+} else {
+  revealEls.forEach(function(el) { el.classList.add('visible'); });
+}
+</script>
 <script>
 function switchTab(name) {
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));

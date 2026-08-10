@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>发展历程 — 太原理工大学机器人团队</title>
+<link rel="stylesheet" href="/static/css/style.css?v=7">
+<style>
+/* ════════════════════════════════════════════════════════════
+   发展历程 — 政务红白黄 · 左右交替 · 乱中有序
+   ════════════════════════════════════════════════════════════ */
+
+/* ── Variables ───────────────────────────────────────────── */
+:root {
+  --china-red: #de2910;
+  --china-red-dark: #8b0000;
+  --china-red-glow: rgba(222, 41, 16, 0.4);
+  --china-gold: #ffd700;
+  --china-gold-dark: #b8960f;
+  --china-gold-glow: rgba(255, 215, 0, 0.35);
+  --gov-white: #f8f6f0;
+  --gov-cream: #fffef7;
+}
+
+/* ── Hero ─────────────────────────────────────────────────── */
+.history-hero {
+  position: relative;
+  min-height: 40vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  padding: 5rem 1rem 2.5rem;
+  background:
+    radial-gradient(ellipse at 25% 25%, rgba(222,41,16,0.1) 0%, transparent 55%),
+    radial-gradient(ellipse at 75% 65%, rgba(255,215,0,0.07) 0%, transparent 55%);
+}
+.history-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(222,41,16,0.007) 3px, rgba(222,41,16,0.007) 6px);
+  pointer-events: none;
+}
+.history-hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--china-red), var(--china-gold), var(--china-red), transparent);
+  box-shadow: 0 0 25px var(--china-red-glow), 0 0 50px var(--china-gold-glow);
+}
+.history-hero-content { position: relative; z-index: 2; }
+.history-hero h1 {
+  font-size: clamp(2rem, 7vw, 3.8rem);
+  font-weight: 900;
+  margin-bottom: 0.8rem;
+  color: var(--gov-white);
+  text-shadow: 0 0 30px var(--china-red-glow), 0 0 60px var(--china-red-glow), 0 2px 4px rgba(0,0,0,0.5);
+  letter-spacing: 0.1em;
+}
+.history-hero .hero-badge {
+  display: inline-block;
+  padding: 0.55rem 1.8rem;
+  background: linear-gradient(135deg, var(--china-red) 0%, var(--china-red-dark) 100%);
+  color: var(--china-gold);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  border: 2px solid var(--china-gold);
+  border-radius: 2px;
+  box-shadow: 0 0 30px var(--china-red-glow), 0 0 60px var(--china-red-glow), inset 0 0 20px rgba(255,215,0,0.1);
+  text-shadow: 0 0 15px var(--china-gold-glow);
+  animation: heroBadgePulse 3s ease-in-out infinite;
+}
+@keyframes heroBadgePulse {
+  0%, 100% { box-shadow: 0 0 30px var(--china-red-glow), 0 0 60px var(--china-red-glow), inset 0 0 20px rgba(255,215,0,0.1); }
+  50% { box-shadow: 0 0 45px var(--china-red-glow), 0 0 90px var(--china-red-glow), inset 0 0 30px rgba(255,215,0,0.2); }
+}
+
+/* ── Timeline spine (vertical zigzag line) ────────────────── */
+.timeline-spine {
+  position: relative;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+.timeline-spine::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(180deg,
+    var(--china-red) 0%,
+    var(--china-gold) 25%,
+    var(--china-red) 50%,
+    var(--china-gold) 75%,
+    var(--china-red) 100%
+  );
+  box-shadow: 0 0 15px var(--china-red-glow), 0 0 30px var(--china-gold-glow);
+  transform: translateX(-50%);
+}
+
+/* ── Year Node (alternating left/right) ───────────────────── */
+.year-node {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 3rem;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+.year-node.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Alternate left/right */
+.year-node:nth-child(odd) { flex-direction: row; }
+.year-node:nth-child(even) { flex-direction: row-reverse; }
+
+.year-node:nth-child(odd) .year-card-wrap { width: 44%; padding-right: 1.5rem; padding-left: 0; }
+.year-node:nth-child(even) .year-card-wrap { width: 44%; padding-left: 1.5rem; padding-right: 0; }
+
+.year-node:nth-child(odd) .year-watermark { right: 0.5rem; left: auto; }
+.year-node:nth-child(even) .year-watermark { left: 0.5rem; right: auto; }
+
+/* ── Decorative empty-space panel ─────────────────────────── */
+.year-deco {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Rotating diamond */
+.year-deco::before {
+  content: '';
+  position: absolute;
+  width: 55px;
+  height: 55px;
+  border: 1.5px solid var(--china-gold);
+  transform: rotate(45deg);
+  opacity: 0.16;
+  animation: decoSpin 10s linear infinite;
+  box-shadow: 0 0 20px var(--china-gold-glow), inset 0 0 15px rgba(255, 215, 0, 0.04);
+}
+
+/* Pulsing outer ring */
+.year-deco::after {
+  content: '';
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border: 1px solid var(--china-red);
+  border-radius: 50%;
+  opacity: 0.1;
+  animation: decoPulse 3.5s ease-in-out infinite;
+  box-shadow: 0 0 25px var(--china-red-glow);
+}
+
+@keyframes decoSpin {
+  from { transform: rotate(45deg); }
+  to { transform: rotate(405deg); }
+}
+@keyframes decoPulse {
+  0%, 100% { transform: scale(1); opacity: 0.1; }
+  50% { transform: scale(1.25); opacity: 0.22; }
+}
+
+/* Floating small dots */
+.deco-dot {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--china-gold);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--china-gold-glow);
+}
+.deco-dot:nth-child(1) { top: 20%; left: 25%; animation: dotDrift 5s ease-in-out infinite; }
+.deco-dot:nth-child(2) { top: 65%; left: 65%; animation: dotDrift 6s ease-in-out infinite 1.5s; }
+.deco-dot:nth-child(3) { top: 45%; left: 45%; animation: dotDrift 4.5s ease-in-out infinite 0.8s; }
+.deco-dot:nth-child(4) { top: 30%; left: 70%; width: 3px; height: 3px; animation: dotDrift 7s ease-in-out infinite 2s; }
+.deco-dot:nth-child(5) { top: 70%; left: 30%; width: 3px; height: 3px; animation: dotDrift 5.5s ease-in-out infinite 1s; }
+
+@keyframes dotDrift {
+  0%, 100% { transform: translate(0, 0); opacity: 0.6; }
+  25% { transform: translate(6px, -8px); opacity: 1; }
+  50% { transform: translate(-4px, -3px); opacity: 0.4; }
+  75% { transform: translate(-7px, 5px); opacity: 0.9; }
+}
+
+.year-node:nth-child(odd) .year-meta { text-align: right; }
+.year-node:nth-child(even) .year-meta { text-align: left; }
+
+/* Center dot — spans the full flex gap between card and deco */
+.year-dot {
+  position: absolute;
+  left: 50%;
+  top: 2rem;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--bg-primary);
+  border: 3px solid var(--china-red);
+  box-shadow:
+    0 0 20px var(--china-red-glow),
+    0 0 40px var(--china-red-glow),
+    inset 0 0 8px rgba(222, 41, 16, 0.3);
+  transform: translateX(-50%);
+  z-index: 10;
+  animation: dotGlow 2.5s ease-in-out infinite;
+  flex-shrink: 0;
+}
+.year-dot::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px solid var(--china-gold);
+  opacity: 0;
+  animation: dotRipple 2.5s ease-out infinite;
+}
+@keyframes dotGlow {
+  0%, 100% { box-shadow: 0 0 20px var(--china-red-glow), 0 0 40px var(--china-red-glow); }
+  50% { box-shadow: 0 0 30px var(--china-red-glow), 0 0 60px var(--china-red-glow), 0 0 80px var(--china-gold-glow); }
+}
+@keyframes dotRipple {
+  0% { inset: -6px; opacity: 1; border-color: var(--china-gold); }
+  100% { inset: -22px; opacity: 0; border-color: var(--china-gold); }
+}
+
+/* Giant year watermark */
+.year-watermark {
+  position: absolute;
+  top: -1rem;
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(3.5rem, 10vw, 7rem);
+  font-weight: 900;
+  color: rgba(222, 41, 16, 0.04);
+  letter-spacing: 0.05em;
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ── Year Card (white card with red/gold accents) ─────────── */
+.year-card {
+  background: var(--gov-white);
+  border-radius: 6px;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 0 30px var(--china-red-glow),
+    0 10px 40px rgba(0,0,0,0.45);
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.5s;
+}
+
+/* Slight rotation for "乱中有序" feel — alternate sides */
+.year-node:nth-child(odd) .year-card { transform: rotate(-0.3deg); }
+.year-node:nth-child(even) .year-card { transform: rotate(0.3deg); }
+
+.year-node:nth-child(odd) .year-card:hover { transform: rotate(-0.3deg) translateY(-6px) translateX(3px); }
+.year-node:nth-child(even) .year-card:hover { transform: rotate(0.3deg) translateY(-6px) translateX(-3px); }
+
+.year-card:hover {
+  box-shadow:
+    0 0 50px var(--china-red-glow),
+    0 0 90px var(--china-red-glow),
+    0 15px 60px rgba(0,0,0,0.55);
+}
+
+/* Red top bar */
+.year-card-bar {
+  height: 4px;
+  background: linear-gradient(90deg, var(--china-red), var(--china-gold), var(--china-red));
+  box-shadow: 0 0 20px var(--china-red-glow);
+}
+
+/* Gold side border (right for odd, left for even) */
+.year-card-gold {
+  position: absolute;
+  top: 4px;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(180deg, var(--china-gold), var(--china-gold-dark));
+  box-shadow: 0 0 14px var(--china-gold-glow);
+}
+.year-node:nth-child(odd) .year-card-gold { right: 0; }
+.year-node:nth-child(even) .year-card-gold { left: 0; }
+
+/* Corner decorations */
+.year-corner {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  pointer-events: none;
+}
+.year-corner-tr {
+  top: 0; right: 0;
+  border-top: 2px solid var(--china-gold);
+  border-right: 2px solid var(--china-gold);
+  box-shadow: 0 0 10px var(--china-gold-glow);
+}
+.year-corner-bl {
+  bottom: 0; left: 0;
+  border-bottom: 2px solid var(--china-red);
+  border-left: 2px solid var(--china-red);
+  box-shadow: 0 0 8px var(--china-red-glow);
+}
+.year-node:nth-child(even) .year-corner-tr { left: 0; right: auto; border-left: 2px solid var(--china-gold); border-right: none; border-top: 2px solid var(--china-gold); }
+.year-node:nth-child(even) .year-corner-bl { right: 0; left: auto; border-right: 2px solid var(--china-red); border-left: none; border-bottom: 2px solid var(--china-red); }
+
+/* ── Card Content ─────────────────────────────────────────── */
+.year-card-body {
+  padding: 1.8rem;
+}
+
+.year-card-label {
+  display: inline-block;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--china-red);
+  letter-spacing: 0.2em;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 0 10px var(--china-red-glow);
+}
+.year-card-desc {
+  color: #2a2a2a;
+  font-size: 0.95rem;
+  line-height: 1.9;
+  margin-bottom: 1.5rem;
+  font-family: 'Noto Sans SC', 'Rajdhani', sans-serif;
+}
+
+/* ── Photo Grid (masonry-like, varying sizes) ─────────────── */
+.year-photos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 0.9rem;
+}
+
+/* Make some photos span more columns for visual variety */
+.year-photos .yp-item:nth-child(3n+1) {
+  grid-column: span 2;
+}
+
+.year-photo {
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 2px solid var(--china-red);
+  aspect-ratio: 4 / 3;
+  cursor: pointer;
+  box-shadow: 0 0 12px var(--china-red-glow);
+  transition: all 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.year-photo:hover {
+  border-color: var(--china-gold);
+  box-shadow: 0 0 30px var(--china-gold-glow), 0 0 60px var(--china-red-glow);
+  transform: scale(1.03) translateY(-2px);
+  z-index: 3;
+}
+.year-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.year-photo:hover img { transform: scale(1.1); }
+
+.year-photo-cap {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 1.8rem 0.8rem 0.6rem;
+  background: linear-gradient(transparent, rgba(222,41,16,0.92));
+  color: var(--china-gold);
+  font-size: 0.75rem;
+  line-height: 1.5;
+  font-weight: 600;
+  font-family: 'Noto Sans SC', 'Rajdhani', sans-serif;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.3s, transform 0.3s;
+}
+.year-photo:hover .year-photo-cap { opacity: 1; transform: translateY(0); }
+
+/* ── Lightbox ─────────────────────────────────────────────── */
+.lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.95);
+  backdrop-filter: blur(20px);
+  z-index: 10000;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  cursor: zoom-out;
+}
+.lightbox.active { display: flex; }
+.lightbox-img {
+  max-width: 90vw;
+  max-height: 85vh;
+  border-radius: 8px;
+  border: 3px solid var(--china-gold);
+  box-shadow: 0 0 50px var(--china-red-glow), 0 0 100px var(--china-red-glow), 0 0 160px var(--china-gold-glow);
+  animation: lbIn 0.4s ease-out;
+}
+@keyframes lbIn {
+  0% { opacity: 0; transform: scale(0.88) translateY(20px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+.lb-close {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: rgba(222,41,16,0.9);
+  border: 2px solid var(--china-gold);
+  color: var(--china-gold);
+  font-size: 1.5rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 25px var(--china-red-glow);
+  transition: all 0.35s;
+}
+.lb-close:hover {
+  background: var(--china-red);
+  color: #fff;
+  transform: rotate(90deg);
+  box-shadow: 0 0 40px var(--china-red-glow), 0 0 80px var(--china-gold-glow);
+}
+
+/* ── Intro ────────────────────────────────────────────────── */
+.history-intro {
+  max-width: 700px;
+  margin: 0 auto 4rem;
+  padding: 0 1rem;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+/* ── Responsive ───────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .timeline-spine::before { left: 24px; }
+  .year-node { flex-direction: column !important; padding-left: 56px; }
+  .year-node:nth-child(odd) .year-card-wrap,
+  .year-node:nth-child(even) .year-card-wrap { width: 100% !important; padding: 0 !important; }
+  .year-deco { display: none; }
+  .year-dot { left: 24px; width: 18px; height: 18px; top: 1.5rem; }
+  .year-watermark { font-size: 3rem !important; }
+  .year-card-body { padding: 1.3rem !important; }
+  .year-photos { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 0.6rem; }
+  .year-photos .yp-item:nth-child(3n+1) { grid-column: span 1; }
+  .history-hero { min-height: 30vh; padding: 4rem 1rem 2rem; }
+  .year-card { transform: none !important; }
+  .year-card:hover { transform: translateY(-4px) !important; }
+}
+@media (max-width: 480px) {
+  .year-photos { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="noise-overlay"></div>
+
+<!-- Like Widget -->
+<div class="like-widget" id="like-widget">
+  <button class="like-btn" id="like-btn" onclick="handleLike()" title="点赞">♥</button>
+  <div class="like-count" id="like-count">0</div>
+  <div class="like-remaining" id="like-remaining"></div>
+</div>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <img src="/images/照片/transparent_logo.png" alt="Logo" onerror="this.style.display='none'">
+      <span>TYUT ROBOT</span>
+    </a>
+    <button class="menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+    <ul class="nav-links">
+      <li><a href="/">网站主页</a></li>
+      <li><a href="/organization">组织概况</a></li>
+      <li><a href="/training">培养方案</a></li>
+      <li><a href="/research">竞赛科研</a></li>
+      <li><a href="/history" class="active">发展历程</a></li>
+      <li><a href="/guestbook">留言板</a></li>
+      {% if user %}
+      <li><span class="nav-user-tag">{{ user.username }}</span></li>
+      <li><a href="#" class="nav-logout-btn" onclick="logout(); return false">退出</a></li>
+      {% else %}
+      <li><button class="nav-user-btn" onclick="showAuthModal('login')">登录</button></li>
+      {% endif %}
+      <li><button class="theme-toggle" onclick="toggleTheme()" title="切换主题">🌓</button></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-content">
+
+  <!-- ═══ Hero ═══ -->
+  <section class="history-hero">
+    <div class="history-hero-content">
+      <h1>发展历程</h1>
+      <div class="hero-badge">HISTORY · 2008 — 2026</div>
+    </div>
+  </section>
+
+  <!-- ═══ Intro ═══ -->
+  <div class="history-intro animate-in">
+    <div class="section-divider" style="margin: 0 auto 1.5rem;"></div>
+    <p style="color:var(--text-secondary); font-size:1rem; line-height:1.9; font-family:'Noto Sans SC','Rajdhani',sans-serif;">
+      自 <strong style="color:var(--china-gold);">2008</strong> 年建队以来，太原理工大学机器人团队十九载风雨兼程，
+      从国内赛场走向世界舞台，以 <strong style="color:var(--china-red);">冠军</strong> 之姿书写着属于太原理工人的机器人传奇。
+    </p>
+  </div>
+
+  <!-- ═══ Zigzag Timeline ═══ -->
+  <div class="timeline-spine">
+
+    <!-- ═══════ 2026 ═══════ -->
+    <div class="year-node animate-in">
+      <div class="year-dot"></div>
+      <div class="year-deco"><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span></div>
+      <div class="year-card-wrap">
+        <div class="year-watermark">2026</div>
+        <div class="year-card">
+          <div class="year-card-bar"></div>
+          <div class="year-card-gold"></div>
+          <div class="year-corner year-corner-tr"></div>
+          <div class="year-corner year-corner-bl"></div>
+          <div class="year-card-body">
+            <div class="year-card-label">2026 · TRIPLE CROWN</div>
+            <p class="year-card-desc">
+              2026 年，团队在三大赛事中全面开花：<strong>中国机器人和人工智能大赛</strong>、<strong>全国大学生跨校创新实践训练营</strong>、<strong>暑期集训结营</strong>，以卓越实力延续冠军传奇。
+            </p>
+            <div class="year-photos">
+              <div class="year-photo" onclick="openLightbox(this)">
+                <img src="/images/历程/2007-2025机器人团队大事记照片/2021-2026/2026中国人机器人和人工智能大赛.jpg" loading="lazy" onerror="this.parentElement.style.display='none'">
+                <div class="year-photo-cap">2026 中国机器人和人工智能大赛</div>
+              </div>
+              <div class="year-photo" onclick="openLightbox(this)">
+                <img src="/images/历程/2007-2025机器人团队大事记照片/2021-2026/2026全国大学生跨校创新实践训练营.jpg" loading="lazy" onerror="this.parentElement.style.display='none'">
+                <div class="year-photo-cap">2026 全国大学生跨校创新实践训练营</div>
+              </div>
+              <div class="year-photo" onclick="openLightbox(this)">
+                <img src="/images/历程/2007-2025机器人团队大事记照片/2021-2026/2026机器人团队暑期集训结营.jpg" loading="lazy" onerror="this.parentElement.style.display='none'">
+                <div class="year-photo-cap">2026 机器人团队暑期集训结营</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════ 2025 ═══════ -->
+    <div class="year-node animate-in">
+      <div class="year-dot" style="border-color: var(--china-gold); box-shadow: 0 0 20px var(--china-gold-glow), 0 0 40px var(--china-gold-glow);"></div>
+      <div class="year-deco"><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span></div>
+      <div class="year-card-wrap">
+        <div class="year-watermark">2025</div>
+        <div class="year-card">
+          <div class="year-card-bar"></div>
+          <div class="year-card-gold"></div>
+          <div class="year-corner year-corner-tr"></div>
+          <div class="year-corner year-corner-bl"></div>
+          <div class="year-card-body">
+            <div class="year-card-label">2025 · ACHIEVEMENT</div>
+            <p class="year-card-desc">
+              第17届全国三维数字化创新设计大赛年度竞赛，团队再创辉煌，获国家一等奖 <strong>7</strong> 项、国家二等奖 <strong>6</strong> 项，荣耀加冕龙鼎大奖。
+            </p>
+            <div class="year-photos">
+              <div class="year-photo" onclick="openLightbox(this)">
+                <img src="/images/历程/2007-2025机器人团队大事记照片/2021-2026/2025 斩获龙鼎大奖.jpg" loading="lazy" onerror="this.parentElement.style.display='none'">
+                <div class="year-photo-cap">2025 斩获龙鼎大奖</div>
+              </div>
+              <div class="year-photo" onclick="openLightbox(this)">
+                <img src="/images/历程/2007-2025机器人团队大事记照片/2021-2026/2025.jpg" loading="lazy" onerror="this.parentElement.style.display='none'">
+                <div class="year-photo-cap">2025 龙鼎大奖奖杯</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════ 2024 ═══════ -->
+    <div class="year-node animate-in">
+      <div class="year-dot"></div>
+      <div class="year-deco"><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span></div>
+      <div class="year-card-wrap">
+        <div class="year-watermark">2024</div>
+        <div class="year-card">
+          <div class="year-card-bar"></div>
+          <div class="year-card-gold"></div>
+          <div class="year-corner year-corner-tr"></div>
+          <div class="year-corner year-corner-bl"></div>
+          <div class="year-card-body">
+            <div class="year-card-label">2024 · MILESTONE</div>
+            <p class="year-card-desc">
+              7月，<strong>太原理工大学多模态智能人机交互实验室</strong>与<strong>AI创新人才培养实训基地</strong>正式成立，开启智能人机交互新篇章。全国三维数字化创新设计大赛年度竞赛暨数智科技文化节龙鼎奖颁奖盛典，再获国家一等奖7项、国家二等奖6项。
+            </p>
+            <div class="year-photos">
+              <div class="year-photo" onclick="openLightbox(this)">
+                <img src="/images/历程/2007-2025机器人团队大事记照片/2021-2026/2024 第17届全国三维数字化创新设计大赛年度竞赛暨数智科技文化节龙鼎奖"颁奖盛典获国家一等奖7项、国家二等奖6项.jpg" loading="lazy" onerror="this.parentElement.style.display='none'">
+                <div class="year-photo-cap">2024 第17届全国3D大赛 · 龙鼎奖</div>
+              </div>
+              <div class="year-photo" onclick="openLightbox(this)">
+                <img src="/images/历程/2007-2025机器人团队大事记照片/2021-2026/2024年7月，太原理工大学多模态智能人机交互实验室、AI创新人才培养实训基地成立。.png" loading="lazy" onerror="this.parentElement.style.display='none'">
+                <div class="year-photo-cap">2024 多模态智能人机交互实验室成立</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════ 2023 ═══════ -->
+    <div class="year-node animate-in">
+      <div class="year-dot" style="border-color: var(--china-gold); box-shadow: 0 0 20px var(--china-gold-glow), 0 0 40px var(--china-gold-glow);"></div>
+      <div class="year-deco"><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span></div>
+      <div class="year-card-wrap">
+        <div class="year-watermark">2023</div>
+        <div class="year-card">
+          <div class="year-card-bar"></div>
+          <div class="year-card-gold"></div>
+          <div class="year-corner year-corner-tr"></div>
+          <div class="year-corner year-corner-bl"></div>
+          <div class="year-card-body">
+            <div class="year-card-label">2023 · CONTEST</div>
+            <p class="year-card-desc">
+              第六届<strong>中国高校智能机器人创意大赛</strong>，团队表现优异，获国家一等奖 <strong>5</strong> 项、国家二等奖 <strong>4</strong> 项。
+            </p>
+            <div class="year-photos">
+              <div class="year-photo" onclick="openLightbox(this)">
+                <img src="/images/历程/2007-2025机器人团队大事记照片/2021-2026/2023 第六届中国高校智能机器人创意大赛获国家一等奖5项、国家二等奖4项.jpg" loading="lazy" onerror="this.parentElement.style.display='none'">
+                <div class="year-photo-cap">2023 第六届中国高校智能机器人创意大赛</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════ 2022 ═══════ -->
+    <div class="year-node animate-in">
+      <div class="year-dot"></div>
+      <div class="year-deco"><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span></div>
+      <div class="year-card-wrap">
+        <div class="year-watermark">2022</div>
+        <div class="year-card">
+          <div class="year-card-bar"></div>
+          <div class="year-card-gold"></div>
+          <div class="year-corner year-corner-tr"></div>
+          <div class="year-corner year-corner-bl"></div>
+          <div class="year-card-body">
+            <div class="year-card-label">2022 · ROBOCUP</div>
+            <p class="year-card-desc">
+              <strong>中国机器人大赛暨 RoboCup 机器人世界杯中国赛</strong>，团队再接再厉，获国家一等奖 <strong>2</strong> 项、国家二等奖 <strong>5</strong> 项。
+            </p>
+            <div class="year-photos">
+              <div class="year-photo" onclick="openLightbox(this)">
+                <img src="/images/历程/2007-2025机器人团队大事记照片/2021-2026/2022 中国机器人大赛暨RoboCup机器人世界杯中国赛国家一等奖2项、国家二等奖5项.jpg" loading="lazy" onerror="this.parentElement.style.display='none'">
+                <div class="year-photo-cap">2022 中国机器人大赛暨 RoboCup 中国赛</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════ 2021 ═══════ -->
+    <div class="year-node animate-in">
+      <div class="year-dot" style="border-color: var(--china-gold); box-shadow: 0 0 20px var(--china-gold-glow), 0 0 40px var(--china-gold-glow);"></div>
+      <div class="year-deco"><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span></div>
+      <div class="year-card-wrap">
+        <div class="year-watermark">2021</div>
+        <div class="year-card">
+          <div class="year-card-bar"></div>
+          <div class="year-card-gold"></div>
+          <div class="year-corner year-corner-tr"></div>
+          <div class="year-corner year-corner-bl"></div>
+          <div class="year-card-body">
+            <div class="year-card-label">2021 · WORLD STAGE</div>
+            <p class="year-card-desc">
+              <strong>世界机器人锦标赛</strong>出征，向世界展示中国青年的机器人力量。成功承办<strong>中国大学生工程实践与创新能力大赛全国赛（晋蒙豫）赛区</strong>。李卫国机器人创新工作室荣获<strong>山西省总工会职工创新工作室</strong>称号。
+            </p>
+            <div class="year-photos">
+              <div class="year-photo" onclick="openLightbox(this)">
+                <img src="/images/历程/2007-2025机器人团队大事记照片/2021-2026/2021 世界机器人锦标赛.png" loading="lazy" onerror="this.parentElement.style.display='none'">
+                <div class="year-photo-cap">2021 世界机器人锦标赛</div>
+              </div>
+              <div class="year-photo" onclick="openLightbox(this)">
+                <img src="/images/历程/2007-2025机器人团队大事记照片/2021-2026/2021年成功承办中国大学生工程实践与创新能力大赛全国赛(晋蒙豫)赛区大赛。李卫国机器人创新工作室荣获山西省总工会职工创新工作室。.jpg" loading="lazy" onerror="this.parentElement.style.display='none'">
+                <div class="year-photo-cap">2021 承办全国大学生工程实践与创新能力大赛</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════ 2020 ═══════ -->
+    <div class="year-node animate-in">
+      <div class="year-dot"></div>
+      <div class="year-deco"><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span></div>
+      <div class="year-card-wrap">
+        <div class="year-watermark">2020</div>
+        <div class="year-card">
+          <div class="year-card-bar"></div>
+          <div class="year-card-gold"></div>
+          <div class="year-corner year-corner-tr"></div>
+          <div class="year-corner year-corner-bl"></div>
+          <div class="year-card-body">
+            <div class="year-card-label">2020 · NATIONAL HONOR</div>
+            <p class="year-card-desc">
+              <strong>全国人大常委会副委员长陈竺</strong>一行参观考察团队基地，对团队的建设成果给予高度评价。李卫国机器人创新工作室荣获<strong>山西省科教文卫体职工创新工作室</strong>称号。
+            </p>
+            <div class="year-photos">
+              <div class="year-photo" onclick="openLightbox(this)">
+                <img src="/images/历程/2007-2025机器人团队大事记照片/2016-2020/2020年，全国人大常委会副委员长陈竺-行参观考察我中心。李卫国机器人创新工作室荣获山西省科教文卫体职工创新工作室。-.png" loading="lazy" onerror="this.parentElement.style.display='none'">
+                <div class="year-photo-cap">2020 全国人大常委会副委员长陈竺参观考察</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════ 2019 ═══════ -->
+    <div class="year-node animate-in">
+      <div class="year-dot" style="border-color: var(--china-gold); box-shadow: 0 0 20px var(--china-gold-glow), 0 0 40px var(--china-gold-glow);"></div>
+      <div class="year-deco"><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span></div>
+      <div class="year-card-wrap">
+        <div class="year-watermark">2019</div>
+        <div class="year-card">
+          <div class="year-card-bar"></div>
+          <div class="year-card-gold"></div>
+          <div class="year-corner year-corner-tr"></div>
+          <div class="year-corner year-corner-bl"></div>
+          <div class="year-card-body">
+            <div class="year-card-label">2019 · LEADER VISIT</div>
+            <p class="year-card-desc">
+              <strong>共青团中央书记处第一书记贺军</strong>一行莅临考察机器人团队，深入了解团队建设情况，对团队的创新能力与育人成果给予高度评价。
+            </p>
+            <div class="year-photos">
+              <div class="year-photo" onclick="openLightbox(this)">
+                <img src="/images/历程/2007-2025机器人团队大事记照片/2016-2020/2019年共青团中央书记处第一书记贺军一行考察机器人团队.png" loading="lazy" onerror="this.parentElement.style.display='none'">
+                <div class="year-photo-cap">2019 共青团中央书记处第一书记贺军考察</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════ 2018 ═══════ -->
+    <div class="year-node animate-in">
+      <div class="year-dot"></div>
+      <div class="year-deco"><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span></div>
+      <div class="year-card-wrap">
+        <div class="year-watermark">2018</div>
+        <div class="year-card">
+          <div class="year-card-bar"></div>
+          <div class="year-card-gold"></div>
+          <div class="year-corner year-corner-tr"></div>
+          <div class="year-corner year-corner-bl"></div>
+          <div class="year-card-body">
+            <div class="year-card-label">2018 · INTERNATIONAL</div>
+            <p class="year-card-desc">
+              <strong>国际水中机器人大赛</strong>（山东青岛），团队在水下机器人领域再展身手，获一等奖 <strong>1</strong> 项、二等奖 <strong>1</strong> 项、三等奖 <strong>1</strong> 项。
+            </p>
+            <div class="year-photos">
+              <div class="year-photo" onclick="openLightbox(this)">
+                <img src="/images/历程/2007-2025机器人团队大事记照片/2016-2020/2018 国际水中机器人大赛(2018.9.15-18山东青岛)荣获一等奖1项二等奖1项三等奖1项.png" loading="lazy" onerror="this.parentElement.style.display='none'">
+                <div class="year-photo-cap">2018 国际水中机器人大赛 · 青岛</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════ 2017 ═══════ -->
+    <div class="year-node animate-in">
+      <div class="year-dot" style="border-color: var(--china-gold); box-shadow: 0 0 20px var(--china-gold-glow), 0 0 40px var(--china-gold-glow);"></div>
+      <div class="year-deco"><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span></div>
+      <div class="year-card-wrap">
+        <div class="year-watermark">2017</div>
+        <div class="year-card">
+          <div class="year-card-bar"></div>
+          <div class="year-card-gold"></div>
+          <div class="year-corner year-corner-tr"></div>
+          <div class="year-corner year-corner-bl"></div>
+          <div class="year-card-body">
+            <div class="year-card-label">2017 · PARTY CARE</div>
+            <p class="year-card-desc">
+              8月，校党委书记<strong>吴玉程</strong>专程来到工程训练中心，看望慰问载誉归来的机器人团队获奖队员和参加暑期社会实践活动的全体师生。
+            </p>
+            <div class="year-photos">
+              <div class="year-photo" onclick="openLightbox(this)">
+                <img src="/images/历程/2007-2025机器人团队大事记照片/2016-2020/2017年8月校党委书记吴玉程专程来到工程训练中心看望慰问载誉归来的机器人团队获奖队员和参加暑期社会实践活动的全体师生.png" loading="lazy" onerror="this.parentElement.style.display='none'">
+                <div class="year-photo-cap">2017 校党委书记吴玉程慰问团队</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════ 2016 ═══════ -->
+    <div class="year-node animate-in">
+      <div class="year-dot"></div>
+      <div class="year-deco"><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span></div>
+      <div class="year-card-wrap">
+        <div class="year-watermark">2016</div>
+        <div class="year-card">
+          <div class="year-card-bar"></div>
+          <div class="year-card-gold"></div>
+          <div class="year-corner year-corner-tr"></div>
+          <div class="year-corner year-corner-bl"></div>
+          <div class="year-card-body">
+            <div class="year-card-label">2016 · LANDMARK YEAR</div>
+            <p class="year-card-desc">
+              中国机器人大赛（湖南长沙），获一等奖 <strong>4</strong> 项、二等奖 <strong>3</strong> 项、<strong>冠军 1 项</strong>。中国教育机器人大赛（湖北武汉），获<strong>特等奖 1 项</strong>、一等奖 1 项、二等奖 1 项。世界机器人大会期间，<strong>国家领导人亲切接见</strong>李卫国老师。
+            </p>
+            <div class="year-photos">
+              <div class="year-photo" onclick="openLightbox(this)">
+                <img src="/images/历程/2007-2025机器人团队大事记照片/2016-2020/2016 中国机器人的大赛2016.10.28-30湖南长沙)荣获一等奖4项二等奖3项其中冠军一项.jpg" loading="lazy" onerror="this.parentElement.style.display='none'">
+                <div class="year-photo-cap">2016 中国机器人大赛 · 长沙</div>
+              </div>
+              <div class="year-photo" onclick="openLightbox(this)">
+                <img src="/images/历程/2007-2025机器人团队大事记照片/2016-2020/2016 中国教育机器人大赛(2016.11.13-15湖北武汉)荣获特等奖1项一等奖1项二等奖1项.jpg" loading="lazy" onerror="this.parentElement.style.display='none'">
+                <div class="year-photo-cap">2016 中国教育机器人大赛 · 武汉</div>
+              </div>
+              <div class="year-photo" onclick="openLightbox(this)">
+                <img src="/images/历程/2007-2025机器人团队大事记照片/2016-2020/2016 世界机器人大会期间国家领导人贾庆林亲切接见工作室李卫国老师.png" loading="lazy" onerror="this.parentElement.style.display='none'">
+                <div class="year-photo-cap">2016 世界机器人大会 · 国家领导人接见</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════ 2015 ═══════ -->
+    <div class="year-node animate-in">
+      <div class="year-dot" style="border-color: var(--china-gold); box-shadow: 0 0 20px var(--china-gold-glow), 0 0 40px var(--china-gold-glow);"></div>
+      <div class="year-deco"><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span></div>
+      <div class="year-card-wrap">
+        <div class="year-watermark">2015</div>
+        <div class="year-card">
+          <div class="year-card-bar"></div>
+          <div class="year-card-gold"></div>
+          <div class="year-corner year-corner-tr"></div>
+          <div class="year-corner year-corner-bl"></div>
+          <div class="year-card-body">
+            <div class="year-card-label">2015 · EXCELLENCE</div>
+            <p class="year-card-desc">
+              第十三届<strong>"兴晋挑战杯"山西省大学生课外学术科技作品竞赛</strong>，荣获<strong>特等奖 1 项</strong>。<strong>华北五省大学生机器人大赛</strong>（北京），获一等奖 <strong>5</strong> 项、二等奖 <strong>4</strong> 项、三等奖 <strong>2</strong> 项。国际水中机器人大赛（甘肃兰州）再获多项奖项。
+            </p>
+            <div class="year-photos">
+              <div class="year-photo" onclick="openLightbox(this)">
+                <img src="/images/历程/2007-2025机器人团队大事记照片/2011-2015/2015 第十三届"兴晋挑战杯"山西省大学生课外学术科技作品竞赛(2015.6.1山西太原)荣获特等奖1项.jpg" loading="lazy" onerror="this.parentElement.style.display='none'">
+                <div class="year-photo-cap">2015 "兴晋挑战杯" · 特等奖</div>
+              </div>
+              <div class="year-photo" onclick="openLightbox(this)">
+                <img src="/images/历程/2007-2025机器人团队大事记照片/2011-2015/2015华北五省大学生机器人大赛(2015.11.13-15北京)荣获一等奖5项二等奖4项三等奖2项.jpg" loading="lazy" onerror="this.parentElement.style.display='none'">
+                <div class="year-photo-cap">2015 华北五省大学生机器人大赛</div>
+              </div>
+              <div class="year-photo" onclick="openLightbox(this)">
+                <img src="/images/历程/2007-2025机器人团队大事记照片/2011-2015/2015国际水中机器人大赛(2015.7.23-25甘肃兰州)荣获一等奖1项二等奖2项三等奖2项.JPG" loading="lazy" onerror="this.parentElement.style.display='none'">
+                <div class="year-photo-cap">2015 国际水中机器人大赛 · 兰州</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════ 2014 ═══════ -->
+    <div class="year-node animate-in">
+      <div class="year-dot"></div>
+      <div class="year-deco"><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span></div>
+      <div class="year-card-wrap">
+        <div class="year-watermark">2014</div>
+        <div class="year-card">
+          <div class="year-card-bar"></div>
+          <div class="year-card-gold"></div>
+          <div class="year-corner year-corner-tr"></div>
+          <div class="year-corner year-corner-bl"></div>
+          <div class="year-card-body">
+            <div class="year-card-label">2014 · GOLD MEDAL</div>
+            <p class="year-card-desc">
+              <strong>国际水中机器人大赛</strong>（广东潮州），斩获<strong>金奖 1 项</strong>、一等奖 1 项，创造了队伍在该项赛事中的历史最佳成绩。山西省大学生机器人大赛（太原），获一等奖 <strong>8</strong> 项、二等奖 <strong>4</strong> 项。首届晋商杯大学生创业大赛获二等奖。
+            </p>
+            <div class="year-photos">
+              <div class="year-photo" onclick="openLightbox(this)">
+                <img src="/images/历程/2007-2025机器人团队大事记照片/2011-2015/2014 国际水中机器人大赛(2014.5.23-25 广东潮州)获得金奖1项，一等奖1项.jpg" loading="lazy" onerror="this.parentElement.style.display='none'">
+                <div class="year-photo-cap">2014 国际水中机器人大赛 · 金奖</div>
+              </div>
+              <div class="year-photo" onclick="openLightbox(this)">
+                <img src="/images/历程/2007-2025机器人团队大事记照片/2011-2015/2014年山西省大学生机器人大赛(2014.10.18-19 山西太原)获得一等奖8项，二等奖4项.JPG" loading="lazy" onerror="this.parentElement.style.display='none'">
+                <div class="year-photo-cap">2014 山西省大学生机器人大赛 · 太原</div>
+              </div>
+              <div class="year-photo" onclick="openLightbox(this)">
+                <img src="/images/历程/2007-2025机器人团队大事记照片/2011-2015/2014 首届晋商杯大学生创业大赛中获得二等奖.jpg" loading="lazy" onerror="this.parentElement.style.display='none'">
+                <div class="year-photo-cap">2014 首届晋商杯大学生创业大赛</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════ 2013 ═══════ -->
+    <div class="year-node animate-in">
+      <div class="year-dot" style="border-color: var(--china-gold); box-shadow: 0 0 20px var(--china-gold-glow), 0 0 40px var(--china-gold-glow);"></div>
+      <div class="year-deco"><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span></div>
+      <div class="year-card-wrap">
+        <div class="year-watermark">2013</div>
+        <div class="year-card">
+          <div class="year-card-bar"></div>
+          <div class="year-card-gold"></div>
+          <div class="year-corner year-corner-tr"></div>
+          <div class="year-corner year-corner-bl"></div>
+          <div class="year-card-body">
+            <div class="year-card-label">2013 · FOUNDATION</div>
+            <p class="year-card-desc">
+              团队在机器人竞赛领域持续深耕，中国机器人大赛暨 RoboCup 公开赛（安徽合肥），获冠军 <strong>2</strong> 项、一等奖 <strong>4</strong> 项。宁波国际水中机器人大赛，获冠军 <strong>1</strong> 项、一等奖 <strong>2</strong> 项。第十四届中国智能机器人大赛（河南洛阳），获冠军 <strong>1</strong> 项、二等奖 <strong>1</strong> 项。
+            </p>
+            <div class="year-photos">
+              <div class="year-photo" onclick="openLightbox(this)">
+                <img src="/images/历程/2007-2025机器人团队大事记照片/2011-2015/2013 中国机器人大赛暨ROBOCUP公开赛(2013.10.18-20 安徽合肥)获得冠军2项，一等奖4项.JPG" loading="lazy" onerror="this.parentElement.style.display='none'">
+                <div class="year-photo-cap">2013 中国机器人大赛暨 RoboCup · 合肥</div>
+              </div>
+              <div class="year-photo" onclick="openLightbox(this)">
+                <img src="/images/历程/2007-2025机器人团队大事记照片/2011-2015/2013 宁波国际水中机器人大赛(2013.5.25-27 浙江宁波)获得冠军1项，一等奖2项.JPG" loading="lazy" onerror="this.parentElement.style.display='none'">
+                <div class="year-photo-cap">2013 宁波国际水中机器人大赛</div>
+              </div>
+              <div class="year-photo" onclick="openLightbox(this)">
+                <img src="/images/历程/2007-2025机器人团队大事记照片/2011-2015/2013 第十四届中国智能机器人大赛(2013.8.16-18河南洛阳)获得冠军1项，二等奖1项.JPG" loading="lazy" onerror="this.parentElement.style.display='none'">
+                <div class="year-photo-cap">2013 第十四届中国智能机器人大赛 · 洛阳</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════ 2012 ═══════ -->
+    <div class="year-node animate-in">
+      <div class="year-dot"></div>
+      <div class="year-deco"><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span></div>
+      <div class="year-card-wrap">
+        <div class="year-watermark">2012</div>
+        <div class="year-card">
+          <div class="year-card-bar"></div>
+          <div class="year-card-gold"></div>
+          <div class="year-corner year-corner-tr"></div>
+          <div class="year-corner year-corner-bl"></div>
+          <div class="year-card-body">
+            <div class="year-card-label">2012 · GROWTH</div>
+            <p class="year-card-desc">
+              团队稳步发展，在机器人技术方向持续深耕。第13届<strong>中国智能机器人大赛</strong>（江苏南京），获一等奖 <strong>2</strong> 项。第五届全国大学生机械创新设计大赛（陕西西安），获一等奖 <strong>1</strong> 项、二等奖 <strong>1</strong> 项。
+            </p>
+            <div class="year-photos">
+              <div class="year-photo" onclick="openLightbox(this)">
+                <img src="/images/历程/2007-2025机器人团队大事记照片/2011-2015/2012 第13届中国智能机器人大赛(2012.11.16-18 江苏南京)获得一等奖2项.JPG" loading="lazy" onerror="this.parentElement.style.display='none'">
+                <div class="year-photo-cap">2012 第13届中国智能机器人大赛 · 南京</div>
+              </div>
+              <div class="year-photo" onclick="openLightbox(this)">
+                <img src="/images/历程/2007-2025机器人团队大事记照片/2011-2015/2012 第五届全国大学生机械创新设计大赛(2012.7.22-24 西安)获得一等奖1项，二等奖1项.JPG" loading="lazy" onerror="this.parentElement.style.display='none'">
+                <div class="year-photo-cap">2012 第五届全国大学生机械创新设计大赛 · 西安</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════ 2011 ═══════ -->
+    <div class="year-node animate-in">
+      <div class="year-dot" style="border-color: var(--china-gold); box-shadow: 0 0 20px var(--china-gold-glow), 0 0 40px var(--china-gold-glow);"></div>
+      <div class="year-deco"><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span></div>
+      <div class="year-card-wrap">
+        <div class="year-watermark">2011</div>
+        <div class="year-card">
+          <div class="year-card-bar"></div>
+          <div class="year-card-gold"></div>
+          <div class="year-corner year-corner-tr"></div>
+          <div class="year-corner year-corner-bl"></div>
+          <div class="year-card-body">
+            <div class="year-card-label">2011 · RISE</div>
+            <p class="year-card-desc">
+              团队规模稳步扩大，在多个技术方向持续深耕。<strong>中国机器人大赛暨 RoboCup 公开赛</strong>（甘肃兰州），获冠军 <strong>2</strong> 项、一等奖 <strong>7</strong> 项。<strong>中国水中机器人大赛 · 首届水中机器人国际邀请赛</strong>（四川成都），获冠军 <strong>1</strong> 项、一等奖 <strong>2</strong> 项。第12届中国智能机器人大赛（江苏常熟），获一等奖 <strong>1</strong> 项。
+            </p>
+            <div class="year-photos">
+              <div class="year-photo" onclick="openLightbox(this)">
+                <img src="/images/历程/2007-2025机器人团队大事记照片/2011-2015/2011 中国机器人大赛暨ROBOCUP公开赛(2011.8.23-25 甘肃兰州)获得奖项冠军2项，一等奖7项.JPG" loading="lazy" onerror="this.parentElement.style.display='none'">
+                <div class="year-photo-cap">2011 中国机器人大赛暨 RoboCup · 兰州</div>
+              </div>
+              <div class="year-photo" onclick="openLightbox(this)">
+                <img src="/images/历程/2007-2025机器人团队大事记照片/2011-2015/2011 中国水中机器人大赛-首届水中机器人国际邀请赛(2011.5.20-22 四川成都)获得冠军1项，一等奖2项.JPG" loading="lazy" onerror="this.parentElement.style.display='none'">
+                <div class="year-photo-cap">2011 首届水中机器人国际邀请赛 · 成都</div>
+              </div>
+              <div class="year-photo" onclick="openLightbox(this)">
+                <img src="/images/历程/2007-2025机器人团队大事记照片/2011-2015/2011 第12届中国智能机器人大赛(2011.11.20-21 江苏常熟)获得一等奖1项.JPG" loading="lazy" onerror="this.parentElement.style.display='none'">
+                <div class="year-photo-cap">2011 第12届中国智能机器人大赛 · 常熟</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════ 2010 ═══════ -->
+    <div class="year-node animate-in">
+      <div class="year-dot"></div>
+      <div class="year-deco"><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span></div>
+      <div class="year-card-wrap">
+        <div class="year-watermark">2010</div>
+        <div class="year-card">
+          <div class="year-card-bar"></div>
+          <div class="year-card-gold"></div>
+          <div class="year-corner year-corner-tr"></div>
+          <div class="year-corner year-corner-bl"></div>
+          <div class="year-card-body">
+            <div class="year-card-label">2010 · CHAMPION</div>
+            <p class="year-card-desc">
+              中国机器人大赛暨 RoboCup 公开赛（<strong>内蒙鄂尔多斯</strong>），获冠军 <strong>1</strong> 项、一等奖 <strong>7</strong> 项。第11届中国智能机器人大赛（福建厦门），获一等奖 <strong>1</strong> 项、二等奖 <strong>1</strong> 项。团队荣获<strong>五四青年奖状</strong>，青年担当绽放光芒。
+            </p>
+            <div class="year-photos">
+              <div class="year-photo" onclick="openLightbox(this)">
+                <img src="/images/历程/2007-2025机器人团队大事记照片/2008-2010/2010 中国机器人大赛暨ROBOCUP公开赛(2010.7.20-22 内蒙鄂尔多斯)获得冠军1项，一等奖7项.jpg" loading="lazy" onerror="this.parentElement.style.display='none'">
+                <div class="year-photo-cap">2010 RoboCup 公开赛 · 鄂尔多斯</div>
+              </div>
+              <div class="year-photo" onclick="openLightbox(this)">
+                <img src="/images/历程/2007-2025机器人团队大事记照片/2008-2010/2010 第11届中国智能机器人大赛(2010.11.13-14 厦门)获得一等奖1项，二等奖1项（2）.jpg" loading="lazy" onerror="this.parentElement.style.display='none'">
+                <div class="year-photo-cap">2010 第11届中国智能机器人大赛 · 厦门</div>
+              </div>
+              <div class="year-photo" onclick="openLightbox(this)">
+                <img src="/images/历程/2007-2025机器人团队大事记照片/2008-2010/2010 五四青年奖状.jpg" loading="lazy" onerror="this.parentElement.style.display='none'">
+                <div class="year-photo-cap">2010 五四青年奖状</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════ 2009 ═══════ -->
+    <div class="year-node animate-in">
+      <div class="year-dot" style="border-color: var(--china-gold); box-shadow: 0 0 20px var(--china-gold-glow), 0 0 40px var(--china-gold-glow);"></div>
+      <div class="year-deco"><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span></div>
+      <div class="year-card-wrap">
+        <div class="year-watermark">2009</div>
+        <div class="year-card">
+          <div class="year-card-bar"></div>
+          <div class="year-card-gold"></div>
+          <div class="year-corner year-corner-tr"></div>
+          <div class="year-corner year-corner-bl"></div>
+          <div class="year-card-body">
+            <div class="year-card-label">2009 · DOMINANCE</div>
+            <p class="year-card-desc">
+              冠军收割之年！<strong>ROBO-PK 中国机器人公开赛</strong>（北京），获冠军 <strong>1</strong> 项。<strong>中国机器人水球冠军赛</strong>（山西太原），获冠军 <strong>2</strong> 项。<strong>第10届中国智能机器人大赛</strong>（上海），获一等奖 <strong>2</strong> 项。<strong>RoboCup 公开赛</strong>（湖南长沙），获冠军 <strong>2</strong> 项、一等奖 <strong>4</strong> 项。共斩获冠军 <strong>5</strong> 项，所向披靡。
+            </p>
+            <div class="year-photos">
+              <div class="year-photo" onclick="openLightbox(this)">
+                <img src="/images/历程/2007-2025机器人团队大事记照片/2008-2010/2009 ROBO-PK中国机器人公开赛(2009.1.13-14 北京)获得冠军1项.jpg" loading="lazy" onerror="this.parentElement.style.display='none'">
+                <div class="year-photo-cap">2009 ROBO-PK 中国机器人公开赛 · 冠军</div>
+              </div>
+              <div class="year-photo" onclick="openLightbox(this)">
+                <img src="/images/历程/2007-2025机器人团队大事记照片/2008-2010/2009 中国机器人水球冠军赛(太原)(2009.5.28-30 山西太原)获得冠军2项.jpg" loading="lazy" onerror="this.parentElement.style.display='none'">
+                <div class="year-photo-cap">2009 中国机器人水球冠军赛 · 太原</div>
+              </div>
+              <div class="year-photo" onclick="openLightbox(this)">
+                <img src="/images/历程/2007-2025机器人团队大事记照片/2008-2010/2009 中国机器人大赛暨ROBOCUP公开赛(2009.12.5-6湖南长沙)获得冠军2项一等奖4项-参加大赛全体师生.jpg" loading="lazy" onerror="this.parentElement.style.display='none'">
+                <div class="year-photo-cap">2009 RoboCup 公开赛 · 长沙</div>
+              </div>
+              <div class="year-photo" onclick="openLightbox(this)">
+                <img src="/images/历程/2007-2025机器人团队大事记照片/2008-2010/2009 第10届中国智能机器人大赛(2009.11.14-15 上海)获得一等奖2项.jpg" loading="lazy" onerror="this.parentElement.style.display='none'">
+                <div class="year-photo-cap">2009 第10届中国智能机器人大赛 · 上海</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════ 2008 ═══════ -->
+    <div class="year-node animate-in">
+      <div class="year-dot"></div>
+      <div class="year-deco"><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span><span class="deco-dot"></span></div>
+      <div class="year-card-wrap">
+        <div class="year-watermark">2008</div>
+        <div class="year-card">
+          <div class="year-card-bar"></div>
+          <div class="year-card-gold"></div>
+          <div class="year-corner year-corner-tr"></div>
+          <div class="year-corner year-corner-bl"></div>
+          <div class="year-card-body">
+            <div class="year-card-label">2008 · ORIGIN · 冠军启航</div>
+            <p class="year-card-desc">
+              团队正式踏上全国冠军征程。<strong>中国机器人水球冠军赛</strong>（北京），获冠军 <strong>1</strong> 项、亚军 <strong>1</strong> 项。<strong>RoboCup 机器人世界杯</strong>（江苏苏州），获冠军 <strong>1</strong> 项、季军 <strong>1</strong> 项，站上了世界机器人大赛的最高领奖台。<strong>中国机器人大赛暨 RoboCup 公开赛</strong>（广东中山），获冠军 <strong>2</strong> 项、一等奖 <strong>2</strong> 项。一鸣惊人，冠军之师由此起步。
+            </p>
+            <div class="year-photos">
+              <div class="year-photo" onclick="openLightbox(this)">
+                <img src="/images/历程/2007-2025机器人团队大事记照片/2008-2010/2008 ROBOCUP机器人世界杯(2008.7.14-20 江苏苏州)获得冠军1项，季军1项.JPG" loading="lazy" onerror="this.parentElement.style.display='none'">
+                <div class="year-photo-cap">2008 RoboCup 机器人世界杯 · 苏州 · 世界冠军</div>
+              </div>
+              <div class="year-photo" onclick="openLightbox(this)">
+                <img src="/images/历程/2007-2025机器人团队大事记照片/2008-2010/2008 中国机器人大赛暨ROBOCUP公开赛(2008.12.5-7 广东中山)获得冠军2项，一等奖2项.jpg" loading="lazy" onerror="this.parentElement.style.display='none'">
+                <div class="year-photo-cap">2008 中国机器人大赛暨 RoboCup · 中山</div>
+              </div>
+              <div class="year-photo" onclick="openLightbox(this)">
+                <img src="/images/历程/2007-2025机器人团队大事记照片/2008-2010/2008 中国机器人水球冠军赛(北京)(2008.10.11-12 北京)获得冠军1项，亚军1项.jpg" loading="lazy" onerror="this.parentElement.style.display='none'">
+                <div class="year-photo-cap">2008 中国机器人水球冠军赛 · 北京</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ═══ Footer ═══ -->
+  <div class="history-footer">
+    <span>◆</span> 2008 — 2026 · 十九载冠军之路 <span>◆</span>
+  </div>
+
+</div>
+
+<footer class="footer">
+  <p>© 2026 <span class="brand">TYUT Robot Team</span> — 太原理工大学机器人团队</p>
+</footer>
+
+<script src="/static/js/main.js?v=6"></script>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lb-close" onclick="closeLightbox()">✕</button>
+  <img class="lightbox-img" id="lightbox-img" src="" alt="预览">
+</div>
+
+<script>
+function openLightbox(item) {
+  const img = item.querySelector('img');
+  if (!img) return;
+  const lb = document.getElementById('lightbox');
+  document.getElementById('lightbox-img').src = img.src;
+  lb.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeLightbox();
+});
+
+/* ── Scroll Animation ─────────────────────────────────────── */
+const yearNodes = document.querySelectorAll('.year-node');
+if ('IntersectionObserver' in window) {
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+  yearNodes.forEach(function(node, i) {
+    node.style.transitionDelay = (i % 3) * 0.15 + 's';
+    observer.observe(node);
+  });
+} else {
+  yearNodes.forEach(function(s) { s.classList.add('visible'); });
+}
+</script>
+
+</body>
+</html>
